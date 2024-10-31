@@ -1,10 +1,10 @@
-package lk.ac.iit.Event.Ticketing.System;
+package lk.ac.iit.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EventTicketingSystemApplicationTests {
+class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {
