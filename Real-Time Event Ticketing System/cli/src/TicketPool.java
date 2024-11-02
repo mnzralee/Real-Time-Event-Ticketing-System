@@ -44,18 +44,27 @@ public class TicketPool {
      *  Method for Vendors releasing Ticket
      */
     public void addTickets() {
-            synchronized (this) {
-                this.availableTickets++;
-                this.totalReleasedTickets++;
-            }
+        synchronized (this) {
+            this.availableTickets++;
+            this.totalReleasedTickets++;
+        }
     }
 
     /**
      *  Method for Customers purchasing Ticket
      */
     public void buyTickets() {
+        if (this.availableTickets > 0) {
             synchronized (this) {
                 this.availableTickets--;
+            }
+        } else {
+            System.out.println("Ticket Pool is empty, waiting for vendor to release tickets.");
+            try {
+                Thread.sleep(1000);
+            }catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -11,7 +11,7 @@ public class Customer implements Runnable{
     public void run() {
         String threadName = Thread.currentThread().getName();
 
-        while (!ticketPool.noTicketsAvailable()) {
+        while (!ticketPool.noTicketsAvailable() || !ticketPool.maxCapacityReached()) {
             ticketPool.buyTickets();
             System.out.println(threadName + " purchased a ticket, Total available tickets: " + ticketPool.getAvailableTickets());
             try {

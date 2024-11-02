@@ -5,12 +5,11 @@ public class TicketingSystem {
     public static void main(String[] args) {
 
         // Dummy values for config
-        Configuration config = new Configuration(10, 2,2, 20);
+        Configuration config = new Configuration(10, 1,1, 20);
 
         TicketPool ticketPool = new TicketPool(config);
 
         Vendor vendor = new Vendor(ticketPool, config.getTicketReleaseRate());
-
         Thread vendor1 = new Thread(vendor, "vendor1");
         Thread vendor2 = new Thread(vendor, "vendor2");
         Thread vendor3 = new Thread(vendor, "vendor3");
@@ -25,9 +24,6 @@ public class TicketingSystem {
         customer1.start();
         customer2.start();
         customer3.start();
-
-
-
 
     }
 
