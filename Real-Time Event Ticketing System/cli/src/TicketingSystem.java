@@ -9,9 +9,23 @@ public class TicketingSystem {
 
         TicketPool ticketPool = new TicketPool(config);
 
-        Customer customer = new Customer();
+        Vendor vendor = new Vendor(ticketPool, config.getTicketReleaseRate());
 
-        Thread cus1 = new Thread(customer);
+        Thread vendor1 = new Thread(vendor, "vendor1");
+        Thread vendor2 = new Thread(vendor, "vendor2");
+        Thread vendor3 = new Thread(vendor, "vendor3");
+        vendor1.start();
+        vendor2.start();
+        vendor3.start();
+
+        Customer customer = new Customer(ticketPool, config.getCustomerRetrievalRate());
+        Thread customer1 = new Thread(customer, "customer1");
+        Thread customer2 = new Thread(customer, "customer2");
+        Thread customer3 = new Thread(customer, "customer3");
+        customer1.start();
+        customer2.start();
+        customer3.start();
+
 
 
 
