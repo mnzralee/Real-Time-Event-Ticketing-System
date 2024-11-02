@@ -1,13 +1,52 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TicketingSystem {
 
     public static void main(String[] args) {
 
-        // Dummy values for config
-        Configuration config = new Configuration(10, 1,1, 20);
+        System.out.println("Welcome to the Ticketing System");
 
-        TicketPool ticketPool = new TicketPool(config);
+        while (true) {
+            Scanner sc = new Scanner(System.in);
+            try {
+                System.out.println("Enter the number of total tickets: ");
+                int totalTickets = sc.nextInt();
+                System.out.println("Enter the rate of Ticket release: ");
+                int ticketReleaseRate = sc.nextInt();
+                System.out.println("Enter the rate of Customer retrieval: ");
+                int customerRetrievalRate = sc.nextInt();
+                System.out.println("Enter the maximum number of ticket capacity: ");
+                int maxTicketCapacity = sc.nextInt();
+                while (maxTicketCapacity < totalTickets){
+                    System.out.println("Enter the maximum number of ticket capacity: ");
+                    maxTicketCapacity = sc.nextInt();
+                }
+
+                Configuration config = new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
+                break;
+
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a valid number.");
+            }
+
+        configurationMenu();
+
+    }
+
+
+
+
+
+
+
+    }
+
+    public static void start(Configuration configuration){
+        // Dummy values for config
+//        Configuration config = new Configuration(10, 1,1, 20);
+
+        TicketPool ticketPool = new TicketPool(configuration);
 
         Vendor vendor = new Vendor(ticketPool, config.getTicketReleaseRate());
         Thread vendor1 = new Thread(vendor, "vendor1");
@@ -24,23 +63,5 @@ public class TicketingSystem {
         customer1.start();
         customer2.start();
         customer3.start();
-
-    }
-
-    public void menu(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Welcome to the Ticketing System");
-
-
-        System.out.println("Enter the number of total tickets: ");
-        int totalTickets = sc.nextInt();
-        System.out.println("Enter the rate of Ticket release: ");
-        int ticketReleaseRate = sc.nextInt();
-        System.out.println("Enter the rate of Customer retrieval: ");
-        int customerRetrievalRate = sc.nextInt();
-        System.out.println("Enter the maximum number of ticket capacity: ");
-        int maxTicketCapacity = sc.nextInt();
-
-
     }
 }
