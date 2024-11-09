@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.function.Predicate;
 
 public class TicketingSystem {
 
@@ -42,8 +43,8 @@ public class TicketingSystem {
         startSystem(config);
     }
 
-    // Helper method for input validation
-    private static int getValidatedInput(Scanner scanner, String prompt, java.util.function.Predicate<Integer> condition, String errorMessage) {
+    // method for input validation
+    private static int getValidatedInput(Scanner scanner, String prompt, Predicate<Integer> condition, String errorMessage) {
         int value;
         while (true) {
             System.out.print(prompt);
@@ -59,12 +60,6 @@ public class TicketingSystem {
             }
         }
     }
-
-
-
-
-
-
 
 
     public static void startSystem(Configuration config) {
