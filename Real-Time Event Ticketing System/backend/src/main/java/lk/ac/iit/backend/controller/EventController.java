@@ -35,26 +35,26 @@ public class EventController {
         return eventRepository.findAll();
     }
 
-    /**
-     * Put request to update an Event
-     * @param id to identify which event to update
-     * @param event instance
-     * @return updated event
-     */
-    @PutMapping("{/id}")
-    public Event updateEvent(@PathVariable long id, @RequestBody Event event) {
-        event.setId(id);
-        return eventRepository.save(event);
-    }
-
-    /**
-     * Deleting an event
-     * @param id to identify the event
-     */
-    @DeleteMapping("{/id}")
-    public void deleteEvent(@PathVariable long id) {
-        eventRepository.deleteById(id);
-    }
+//    /**
+//     * Put request to update an Event
+//     * @param id to identify which event to update
+//     * @param event instance
+//     * @return updated event
+//     */
+//    @PutMapping("{/id}")
+//    public Event updateEvent(@PathVariable long id, @RequestBody Event event) {
+//        event.setEventId(id);
+//        return eventRepository.save(event);
+//    }
+//
+//    /**
+//     * Deleting an event
+//     * @param id to identify the event
+//     */
+//    @DeleteMapping("{/id}")
+//    public void deleteEvent(@PathVariable long id) {
+//        eventRepository.deleteById(id);
+//    }
 
 
 
