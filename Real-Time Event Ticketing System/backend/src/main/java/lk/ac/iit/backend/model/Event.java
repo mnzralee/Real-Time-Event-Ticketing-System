@@ -1,4 +1,4 @@
-package lk.ac.iit.backend.entity;
+package lk.ac.iit.backend.model;
 
 import jakarta.persistence.*;
 
@@ -41,6 +41,15 @@ public class Event {
      */
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
+
+    public void generateTickets(){
+        for (int i = 0; i < getTotalTickets(); i++){
+            Ticket ticket = new Ticket();
+            ticket.setTicketStatus("AVAILABLE");
+            ticket.setEvent(this);
+            tickets.add(ticket);
+        }
+    }
 
     // Getters and Setters
 

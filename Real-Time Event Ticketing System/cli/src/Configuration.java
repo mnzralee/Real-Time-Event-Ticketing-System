@@ -46,4 +46,14 @@ public class Configuration {
     public void setMaxTicketCapacity(int maxTicketCapacity) {
         this.maxTicketCapacity = maxTicketCapacity;
     }
+
+    @Override
+    public String toString() {
+        return "Configuration{" +
+                "totalTickets= " + totalTickets +
+                ", ticketReleaseRate= " + ticketReleaseRate +
+                ", customerRetrievalRate= " + customerRetrievalRate +
+                ", maxTicketCapacity= " + maxTicketCapacity +
+                '}';
+    }
 }

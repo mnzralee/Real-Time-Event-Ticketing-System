@@ -1,4 +1,4 @@
-package lk.ac.iit.backend.entity;
+package lk.ac.iit.backend.model;
 
 import jakarta.persistence.*;
 
@@ -22,6 +22,18 @@ public class Vendor {
      */
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Event> events;
+
+
+    // Constructor
+
+    public Vendor() {};
+
+    public Vendor(String vendorName, String vendorEmail) {
+        this.vendorName = vendorName;
+        this.vendorEmail = vendorEmail;
+    }
+
+    // Getters and Setters
 
     public Long getVendorId() {
         return vendorId;

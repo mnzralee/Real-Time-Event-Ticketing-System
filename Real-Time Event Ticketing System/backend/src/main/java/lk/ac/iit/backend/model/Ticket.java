@@ -1,4 +1,4 @@
-package lk.ac.iit.backend.entity;
+package lk.ac.iit.backend.model;
 
 import jakarta.persistence.*;
 
@@ -7,6 +7,8 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketId;
+
+    private String ticketStatus;
 
     /**
      *  Many-to-One relationship with Event
@@ -17,6 +19,9 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Customer customer;
 
     // Getter and Setters
 
@@ -34,5 +39,13 @@ public class Ticket {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public String getTicketStatus() {
+        return ticketStatus;
+    }
+
+    public void setTicketStatus(String ticketStatus) {
+        this.ticketStatus = ticketStatus;
     }
 }

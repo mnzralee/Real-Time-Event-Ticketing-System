@@ -20,7 +20,6 @@ public class Vendor implements Runnable{
                 Thread.currentThread().interrupt();
                 System.out.println(e.getMessage());
             }
-
         }
         System.out.println("Max capacity reached: " + ticketPool.maxCapacityReached());
     }

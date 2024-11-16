@@ -1,4 +1,4 @@
-package lk.ac.iit.backend.entity;
+package lk.ac.iit.backend.model;
 
 import jakarta.persistence.*;
 
@@ -10,10 +10,6 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
     private String customerName;
-
-    // List of transactions for customer
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Transaction> transactions;
 
 
     //Getters and Setters
@@ -34,11 +30,4 @@ public class Customer {
         this.customerName = customerName;
     }
 
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
-    }
 }

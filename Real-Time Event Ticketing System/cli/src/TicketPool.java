@@ -12,7 +12,6 @@ public class TicketPool {
         this.totalReleasedTickets = config.getTotalTickets();
     }
 
-
     // Getters and Setters
     public synchronized int getAvailableTickets() {
         return availableTickets;
