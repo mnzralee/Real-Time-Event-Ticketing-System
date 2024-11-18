@@ -11,7 +11,7 @@ public class Vendor implements Runnable{
     public void run() {
         String threadName = Thread.currentThread().getName();
 
-        while (!ticketPool.maxCapacityReached() && !Thread.currentThread().isInterrupted()) {
+        while (!ticketPool.maxCapacityReached() && !Thread.currentThread().isInterrupted() && !TicketingSystem.stopFlag.get()) {
             ticketPool.addTickets();
             System.out.println(threadName + " released a ticket, Total tickets released: " + ticketPool.getTotalReleasedTickets());
             try {

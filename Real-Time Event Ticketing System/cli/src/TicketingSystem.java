@@ -1,14 +1,19 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 public class TicketingSystem {
+
+    public static final AtomicBoolean stopFlag = new AtomicBoolean(false);
 
     public static void main(String[] args) {
 
         System.out.println("Welcome to the Ticketing System Simulation!");
 
-        while (true) {
+        boolean runSystem = true;
+
+        while (runSystem) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter a number to make a selection from the menu below");
             System.out.println("-------------------------------------------------------");
@@ -16,7 +21,7 @@ public class TicketingSystem {
             System.out.println("2. Load existing Configurations for the system ");
             System.out.println("3. Quit system");
             System.out.println("-------------------------------------------------------");
-            System.out.println("Enter your choice : ");
+            System.out.print("Enter your choice : ");
 
             int choice;
             Configuration config = null;
@@ -50,10 +55,63 @@ public class TicketingSystem {
                     System.out.println("Thank you for using Ticketing System!");
                     System.out.println("Quitting the application...");
                     System.exit(0);
+                    break;
+                default:
+                    System.out.println("Please enter a valid choice.");
+                    continue;
             }
 
-//            startSystem(config);
-            break;
+//            String userCmd = null;
+//
+//            try {
+//                userCmd = scanner.next();
+//            } catch (InputMismatchException e) {
+//                System.out.println("Please enter a valid command.");
+//                continue;
+//            }
+//
+//            if ("start".equalsIgnoreCase(userCmd)) {
+//                startSystem(config, scanner);
+//
+//            }
+
+            String userCmd = null;
+            boolean runSimulation = true;
+            while (runSimulation) {
+                System.out.println("\nPlease enter a command : [ 'start', 'stop', 'menu', 'quit' ] ");
+                try {
+                    userCmd = scanner.next();
+                } catch (Exception e) {
+                    System.out.println("error try again..");
+                    continue;
+                }
+
+                switch (userCmd){
+                    case "start":
+                        stopFlag.set(false);
+                        startSystem(config, userCmd);
+                        System.out.println("Simulation running.");
+                        break;
+                    case "stop":
+                        stopFlag.set(true);
+                        System.out.println("Simulation stopped.");
+                        break;
+                    case "menu":
+                        // starts program from menu
+                        runSimulation = false;
+                        break;
+
+                    case "quit":
+                        System.out.println("Exiting the system...");
+                        runSystem = false;
+                        runSimulation = false;
+                        System.exit(0);
+                        break;
+
+                    default:
+                        System.out.println("Invalid command. Try 'start', 'stop', 'menu' or 'quit'. ");
+                }
+            }
 
         }
 
@@ -103,7 +161,7 @@ public class TicketingSystem {
     }
 
 
-    public static void startSystem(Configuration config) {
+    public static void startSystem(Configuration config, String userCmd) {
 
         TicketPool ticketPool = new TicketPool(config);
 
@@ -122,5 +180,17 @@ public class TicketingSystem {
         customer1.start();
         customer2.start();
         customer3.start();
+
+        // Thread to listen for the "stop" command
+        new Thread(() -> {
+            System.out.println("Type 'stop' to end the simulation...");
+            while (true) {
+                if ("stop".equalsIgnoreCase(userCmd)) {
+                    System.out.println("Stopping all threads...");
+                    stopFlag.set(true); // Set the flag to stop all threads
+                    break;
+                }
+            }
+        }).start();
     }
 }
