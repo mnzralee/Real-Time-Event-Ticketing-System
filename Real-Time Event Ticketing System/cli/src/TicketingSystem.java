@@ -64,21 +64,8 @@ public class TicketingSystem {
                     continue;
             }
 
-//            String userCmd = null;
-//
-//            try {
-//                userCmd = scanner.next();
-//            } catch (InputMismatchException e) {
-//                System.out.println("Please enter a valid command.");
-//                continue;
-//            }
-//
-//            if ("start".equalsIgnoreCase(userCmd)) {
-//                startSystem(config, scanner);
-//
-//            }
 
-            String userCmd = null;
+            String userCmd;
             boolean runSimulation = true;
             while (runSimulation) {
                 System.out.println("\nPlease enter a command : [ 'start', 'stop', 'menu', 'quit' ] ");
@@ -174,13 +161,6 @@ public class TicketingSystem {
             }
         }).start();
 
-
-//        Thread vendor1 = new Thread(new Vendor(ticketPool, config.getTicketReleaseRate()), "vendor1");
-//        Thread vendor2 = new Thread(new Vendor(ticketPool, config.getTicketReleaseRate()), "vendor2");
-//        Thread vendor3 = new Thread(new Vendor(ticketPool, config.getTicketReleaseRate()), "vendor3");
-//        vendor1.start();
-//        vendor2.start();
-//        vendor3.start();
 
 
         Thread vendor1 = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "vendor1");
