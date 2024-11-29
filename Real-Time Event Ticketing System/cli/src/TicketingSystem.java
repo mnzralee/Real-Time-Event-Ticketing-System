@@ -11,10 +11,10 @@ public class TicketingSystem {
 
         System.out.println("Welcome to the Ticketing System Simulation!");
 
-        boolean runSystem = true;
+//        boolean runSystem = true;
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
 
-        while (runSystem) {
-            Scanner scanner = new Scanner(System.in);
             System.out.println("Enter a number to make a selection from the menu below");
             System.out.println("-------------------------------------------------------");
             System.out.println("1. Create new Configurations for the system ");
@@ -36,15 +36,18 @@ public class TicketingSystem {
             switch (choice) {
                 case 1:
                     config = getConfiguration(scanner);
-                    ConfigManager.saveConfiguration(config);
+//                    ConfigManager.saveConfiguration(config);
+                    Configuration.saveConfiguration(config);
                     System.out.println(config);
                     break;
                 case 2:
-                    config = ConfigManager.loadConfiguration();
+//                    config = ConfigManager.loadConfiguration();
+                    config = Configuration.loadConfiguration();
                     if (config == null) {
                         System.out.println("Since No configuration found, Create new Configurations for the system");
                         config = getConfiguration(scanner);
-                        ConfigManager.saveConfiguration(config);
+//                        ConfigManager.saveConfiguration(config);
+                        Configuration.saveConfiguration(config);
                         System.out.println(config);
                         break;
                     } else {
@@ -103,7 +106,6 @@ public class TicketingSystem {
 
                     case "quit":
                         System.out.println("Exiting the system...");
-                        runSystem = false;
                         runSimulation = false;
                         System.exit(0);
                         break;
@@ -112,14 +114,7 @@ public class TicketingSystem {
                         System.out.println("Invalid command. Try 'start', 'stop', 'menu' or 'quit'. ");
                 }
             }
-
         }
-
-
-
-
-
-
     }
 
     public static Configuration getConfiguration(Scanner scanner) {
@@ -132,6 +127,8 @@ public class TicketingSystem {
 
         return new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
     }
+
+
 
 
     /**
@@ -148,7 +145,7 @@ public class TicketingSystem {
         while (true) {
             System.out.print(prompt);
             try {
-                value = Integer.parseInt(scanner.nextLine());
+                value = scanner.nextInt();
                 if (condition.test(value)) {
                     return value;
                 } else {
@@ -165,23 +162,7 @@ public class TicketingSystem {
 
         TicketPool ticketPool = new TicketPool(config);
 
-        Vendor vendor = new Vendor(ticketPool, config.getTicketReleaseRate());
-        Thread vendor1 = new Thread(vendor, "vendor1");
-        Thread vendor2 = new Thread(vendor, "vendor2");
-        Thread vendor3 = new Thread(vendor, "vendor3");
-        vendor1.start();
-        vendor2.start();
-        vendor3.start();
-
-        Customer customer = new Customer(ticketPool, config.getCustomerRetrievalRate());
-        Thread customer1 = new Thread(customer, "customer1");
-        Thread customer2 = new Thread(customer, "customer2");
-        Thread customer3 = new Thread(customer, "customer3");
-        customer1.start();
-        customer2.start();
-        customer3.start();
-
-        // Thread to listen for the "stop" command
+        // Thread which listens for the "stop" command to stop simulation
         new Thread(() -> {
             System.out.println("Type 'stop' to end the simulation...");
             while (true) {
@@ -192,5 +173,30 @@ public class TicketingSystem {
                 }
             }
         }).start();
+
+
+//        Thread vendor1 = new Thread(new Vendor(ticketPool, config.getTicketReleaseRate()), "vendor1");
+//        Thread vendor2 = new Thread(new Vendor(ticketPool, config.getTicketReleaseRate()), "vendor2");
+//        Thread vendor3 = new Thread(new Vendor(ticketPool, config.getTicketReleaseRate()), "vendor3");
+//        vendor1.start();
+//        vendor2.start();
+//        vendor3.start();
+
+
+        Thread vendor1 = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "vendor1");
+        Thread vendor2 = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "vendor2");
+        Thread vendor3 = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "vendor3");
+        vendor1.start();
+        vendor2.start();
+        vendor3.start();
+
+        Thread customer1 = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 10), "customer1");
+        Thread customer2 = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "customer2");
+        Thread customer3 = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "customer3");
+        customer1.start();
+        customer2.start();
+        customer3.start();
+
+
     }
 }

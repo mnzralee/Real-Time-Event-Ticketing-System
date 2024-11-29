@@ -1,8 +1,18 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Configuration {
     private int totalTickets;
     private int ticketReleaseRate;
     private int customerRetrievalRate;
     private int maxTicketCapacity;
+
+    // configuration file name
+    private static final String CONFIG_FILE = "config.json";
 
 //  Constructor
     public Configuration(int totalTickets, int ticketReleaseRate, int customerRetrievalRate, int maxTicketCapacity) {
@@ -56,4 +66,37 @@ public class Configuration {
                 ", maxTicketCapacity= " + maxTicketCapacity +
                 '}';
     }
+
+
+    /**
+     * SAVE Configuration as a json file
+     * Serializes the configuration object to a JSON file.
+     * @param config Configuration object
+     */
+    public static void saveConfiguration(Configuration config) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
+            gson.toJson(config, writer);
+            System.out.println("Configuration saved successfully.");
+        } catch (IOException e) {
+            System.out.println("Configuration save failed.");
+        }
+    }
+
+    /**
+     * LOAD json configuration file
+     * Reads a JSON file and deserializes it into a configuration object.
+     * @return config object
+     */
+    public static Configuration loadConfiguration() {
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader(CONFIG_FILE)) {
+            return gson.fromJson(reader, Configuration.class);
+        } catch (IOException e) {
+            System.out.println("Config file not found.");
+            return null; // Return null
+        }
+    }
+
+
 }

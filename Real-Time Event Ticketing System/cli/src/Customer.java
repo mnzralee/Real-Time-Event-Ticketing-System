@@ -1,26 +1,44 @@
-public class Customer implements Runnable{
-    private TicketPool ticketPool;
-    private int customerRetrievalRate;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Customer(TicketPool ticketPool, int customerRetrievalRate) {
+public class Customer implements Runnable{
+
+    private final TicketPool ticketPool;
+
+    private final int customerRetrievalRate;
+
+    private final int quantity;
+
+    private final List<Ticket> purchasedTickets;
+
+    public Customer(TicketPool ticketPool, int customerRetrievalRate, int quantity) {
         this.ticketPool = ticketPool;
         this.customerRetrievalRate = customerRetrievalRate * 1000;
+        this.quantity = quantity;
+        this.purchasedTickets = new ArrayList<>();
     }
 
     @Override
     public void run() {
-        String threadName = Thread.currentThread().getName();
 
-        while ((!ticketPool.noTicketsAvailable() || !ticketPool.maxCapacityReached()) && !TicketingSystem.stopFlag.get()) {
-            ticketPool.buyTickets();
-            System.out.println(threadName + " purchased a ticket, Total available tickets: " + ticketPool.getAvailableTickets());
-            try {
-                Thread.sleep(this.customerRetrievalRate);
-            } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
+        for (int i = 0; i < quantity; i++) {
+            if(TicketingSystem.stopFlag.get()){
+                break;
             }
 
+            Ticket ticket = ticketPool.buyTickets();
+            // add purchased ticket to list of tickets purchased by customer
+            purchasedTickets.add(ticket);
+            // print ticket details
+//            System.out.println(Thread.currentThread().getName() + ": " + ticket);
+
+            try {
+                Thread.sleep(customerRetrievalRate);
+            } catch (InterruptedException e) {
+                System.out.println("Customer Thread Error: " + e.getMessage());
+            }
         }
-        System.out.println("cannot purchase anymore, all tickets sold: " + ticketPool.noTicketsAvailable());
+
+
     }
 }

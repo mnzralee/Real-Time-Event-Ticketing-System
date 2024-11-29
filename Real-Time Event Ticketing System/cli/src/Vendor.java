@@ -1,26 +1,37 @@
-public class Vendor implements Runnable{
-    private TicketPool ticketPool;
-    private int ticketReleaseRate;
+import java.math.BigDecimal;
 
-    public Vendor(TicketPool ticketPool, int ticketReleaseRate) {
+public class Vendor implements Runnable{
+    private final TicketPool ticketPool;
+    private final int totalTickets;
+    private final int ticketReleaseRate;
+
+    public Vendor(TicketPool ticketPool, int totalTickets, int ticketReleaseRate) {
         this.ticketPool = ticketPool;
+        this.totalTickets = totalTickets;
         this.ticketReleaseRate = ticketReleaseRate * 1000;
     }
 
     @Override
     public void run() {
-        String threadName = Thread.currentThread().getName();
 
-        while (!ticketPool.maxCapacityReached() && !Thread.currentThread().isInterrupted() && !TicketingSystem.stopFlag.get()) {
-            ticketPool.addTickets();
-            System.out.println(threadName + " released a ticket, Total tickets released: " + ticketPool.getTotalReleasedTickets());
+        for (int i = 1; i <= totalTickets; i++) {
+
+            if(TicketingSystem.stopFlag.get()){
+                break;
+            }
+
+            Ticket ticket = new Ticket("Opera Eve", "16-12-2024", "Colombo", new BigDecimal(1000));
+            ticketPool.addTickets(ticket);
+
+            // setting the rate at which vendor adds ticket
             try {
-                Thread.sleep(this.ticketReleaseRate);
+                Thread.sleep(ticketReleaseRate);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.out.println(e.getMessage());
+                System.out.println("Vendor Thread Error: " + e.getMessage());
             }
         }
-        System.out.println("Max capacity reached: " + ticketPool.maxCapacityReached());
+
+        System.out.println(Thread.currentThread().getName() + ": Stopped releasing tickets");
+
     }
 }
