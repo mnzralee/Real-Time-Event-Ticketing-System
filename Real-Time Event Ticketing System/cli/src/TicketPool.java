@@ -7,12 +7,12 @@ import java.util.logging.Logger;
 
 public class TicketPool {
 
-    // Logger used to maintain an organized logging in cli
-    private static final Logger logger = Logger.getLogger(TicketPool.class.getName());
-
     private final int maxCapacity; // maximum capacity of tickets in the pool
     private final Queue<Ticket> ticketQueue; // Queue to manage tickets in FIFO order
     private int releasedTicketCount = 0; // counter for total released tickets
+
+    // Logger used to maintain an organized logging in cli
+    private static final Logger logger = Logger.getLogger(TicketPool.class.getName());
 
     // ReentrantLock used to ensure thread safe access
     private final ReentrantLock lock = new ReentrantLock();
@@ -29,7 +29,7 @@ public class TicketPool {
     }
 
 
-    // required Getters and Setters
+    // Getters and Setters
 
     public int getMaxCapacity() {
         return maxCapacity;
@@ -53,8 +53,6 @@ public class TicketPool {
     }
 
 
-
-
     /**
      * Method for Vendors to release Tickets to the pool.
      * Block if the pool is full, notifies waiting customer threads once a ticket is released.
@@ -68,8 +66,8 @@ public class TicketPool {
                 notFull.await(); // wait until not full signal
             }
             releasedTicketCount++;
-            ticket.setTicketId(getReleasedTicketCount());
-            ticketQueue.add(ticket);
+            ticket.setTicketId(getReleasedTicketCount()); // set Ticket ID accordingly based on release
+            ticketQueue.add(ticket); // add Ticket to Ticket Queue
             logger.log(Level.INFO, Thread.currentThread().getName() + ": Added a ticket. Tickets available in the pool - " + ticketQueue.size());
             notEmpty.signal(); // notify a waiting customer
         } catch (InterruptedException e){

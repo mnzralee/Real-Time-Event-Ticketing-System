@@ -6,31 +6,64 @@ import jakarta.persistence.*;
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ticketId;
+    private Integer id;
+    private String name;
+    private String description;
+    private String status;
 
-    private String ticketStatus;
-
-    /**
-     *  Many-to-One relationship with Event
-     *  fetch = FetchType.LAZY: The Event data will only be loaded from the database when it's accessed in the code.
-     *  This can improve performance by avoiding unnecessary data loading.
-     *  @JoinColumn (name = "event_id") specifies the foreign key column name in the Ticket table to reference Event.
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "event_id")
     private Event event;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    // Getter and Setters
 
-    public Long getTicketId() {
-        return ticketId;
+    // CONSTRUCTOR
+
+    public Ticket() {};
+
+    public Ticket(String name, String description, String status, Event event) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.event = event;
     }
 
-    public void setTicketId(Long ticketId) {
-        this.ticketId = ticketId;
+
+    // GETTERS and SETTERS
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Event getEvent() {
@@ -41,11 +74,11 @@ public class Ticket {
         this.event = event;
     }
 
-    public String getTicketStatus() {
-        return ticketStatus;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setTicketStatus(String ticketStatus) {
-        this.ticketStatus = ticketStatus;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

@@ -2,63 +2,59 @@ package lk.ac.iit.backend.model;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
-import java.util.List;
+import java.util.Date;
 
-// anything that is an entity will be stored in database
 @Entity
 public class Event {
 
-    // auto generated id value
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long eventId;
-
+    private Integer id;
     private String eventName;
-    private Date eventDate;
-    private String eventLocation;
-
-    private int totalTickets;
-    private int maxCapacity;
-    private int ticketReleaseRate;
-    private int ticketsPerRelease;
-    private int ticketsSold;
+    private String description;
+    private String location;
+    private Date date;
+    private String eventStatus;
 
     /**
-     *  Many-to-One relationship with Vendor
-     *  fetch = FetchType.LAZY: The Vendor data will only be loaded from the database when it's accessed in the code.
-     *  This can improve performance by avoiding unnecessary data loading.
-     *  @JoinColumn (name = "vendorId") specifies the foreign key column name in the Event table to reference Vendor.
+     * one-to-one relationship
+     * Vendor for the event
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
     /**
-     *  One-to-Many relationship with Ticket.
-     *  mappedBy = "event" specifies that the "event" field in Ticket is responsible for managing this relationship.
-     *  This makes Event the inverse side, and Ticket the owner side of the relationship.
+     * one-to-one relationship
+     * Ticket pool for the event
      */
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Ticket> tickets;
+    @OneToOne
+    @JoinColumn(name = "ticket_id")
+    private Ticket ticket;
 
-    public void generateTickets(){
-        for (int i = 0; i < getTotalTickets(); i++){
-            Ticket ticket = new Ticket();
-            ticket.setTicketStatus("AVAILABLE");
-            ticket.setEvent(this);
-            tickets.add(ticket);
-        }
+
+    // CONSTRUCTOR
+
+    public Event() {};
+
+    public Event(Vendor vendor, Ticket ticket, String eventName, String description, String location, Date date) {
+        this.vendor = vendor;
+        this.ticket = ticket;
+        this.eventName = eventName;
+        this.description = description;
+        this.location = location;
+        this.date = date;
     }
 
-    // Getters and Setters
 
-    public Long getEventId() {
-        return eventId;
+    // GETTERS and SETTERS
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getEventName() {
@@ -69,67 +65,51 @@ public class Event {
         this.eventName = eventName;
     }
 
-    public Date getEventDate() {
-        return eventDate;
+    public String getDescription() {
+        return description;
     }
 
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getEventLocation() {
-        return eventLocation;
+    public String getLocation() {
+        return location;
     }
 
-    public void setEventLocation(String eventLocation) {
-        this.eventLocation = eventLocation;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public int getTotalTickets() {
-        return totalTickets;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTotalTickets(int totalTickets) {
-        this.totalTickets = totalTickets;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public int getMaxCapacity() {
-        return maxCapacity;
+    public String getEventStatus() {
+        return eventStatus;
     }
 
-    public void setMaxCapacity(int maxCapacity) {
-        this.maxCapacity = maxCapacity;
+    public void setEventStatus(String eventStatus) {
+        this.eventStatus = eventStatus;
     }
 
-    public int getTicketReleaseRate() {
-        return ticketReleaseRate;
+    public Vendor getVendor() {
+        return vendor;
     }
 
-    public void setTicketReleaseRate(int ticketReleaseRate) {
-        this.ticketReleaseRate = ticketReleaseRate;
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
 
-    public int getTicketsPerRelease() {
-        return ticketsPerRelease;
+    public Ticket getTicket() {
+        return ticket;
     }
 
-    public void setTicketsPerRelease(int ticketsPerRelease) {
-        this.ticketsPerRelease = ticketsPerRelease;
-    }
-
-    public int getTicketsSold() {
-        return ticketsSold;
-    }
-
-    public void setTicketsSold(int ticketsSold) {
-        this.ticketsSold = ticketsSold;
-    }
-
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 }

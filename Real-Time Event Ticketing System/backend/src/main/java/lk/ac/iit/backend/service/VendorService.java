@@ -10,23 +10,38 @@ import java.util.List;
 @Service
 public class VendorService {
 
-    @Autowired
-    private VendorRepository vendorRepository;
+    private final VendorRepository vendorRepository;
 
-    /**
-     * Logic to add vendor
-     * @param vendor instance
-     * @return vendor instance
-     */
+    @Autowired
+    public VendorService(VendorRepository vendorRepository) {
+        this.vendorRepository = vendorRepository;
+    }
+
     public Vendor addVendor(Vendor vendor) {
         return vendorRepository.save(vendor);
     }
 
-    /**
-     * Logic to get a list of all vendors
-     * @return  list of vendors
-     */
+    public Vendor getVendorById(Integer id) {
+        return vendorRepository.findById(Long.valueOf(id))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Vendor ID: " + id));
+    }
+
     public List<Vendor> getAllVendors() {
         return vendorRepository.findAll();
+    }
+
+    public Vendor updateVendor(Integer id, Vendor updatedVendor) {
+        Vendor existingVendor = getVendorById(id);
+        existingVendor.setFirstName(updatedVendor.getFirstName());
+        existingVendor.setLastName(updatedVendor.getLastName());
+        existingVendor.setEmail(updatedVendor.getEmail());
+        return vendorRepository.save(existingVendor);
+    }
+
+    public void deleteVendor(Integer id) {
+        if (!vendorRepository.existsById(Long.valueOf(id))) {
+            throw new IllegalArgumentException("Invalid Vendor ID: " + id);
+        }
+        vendorRepository.deleteById(Long.valueOf(id));
     }
 }

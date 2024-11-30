@@ -8,26 +8,89 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customerId;
-    private String customerName;
+    private Integer id;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    private String password;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Ticket> tickets;
+
+    @OneToMany(mappedBy = "customer")
+    private List<TicketingLog> ticketingLogs;
 
 
-    //Getters and Setters
+    // CONSTRUCTOR
 
-    public Long getCustomerId() {
-        return customerId;
+    public Customer() {};
+
+    public Customer(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    // GETTERS and SETTERS
+
+    public Integer getId() {
+        return id;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public String getFirstName() {
+        return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public List<TicketingLog> getTicketingLogs() {
+        return ticketingLogs;
+    }
+
+    public void setTicketingLogs(List<TicketingLog> ticketingLogs) {
+        this.ticketingLogs = ticketingLogs;
+    }
 }

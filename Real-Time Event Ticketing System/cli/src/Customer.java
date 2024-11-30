@@ -4,9 +4,7 @@ import java.util.List;
 public class Customer implements Runnable{
 
     private final TicketPool ticketPool;
-
     private final int customerRetrievalRate;
-
     private final int quantity;
 
     private final List<Ticket> purchasedTickets;
@@ -38,7 +36,6 @@ public class Customer implements Runnable{
                 System.out.println("Customer Thread Error: " + e.getMessage());
             }
         }
-
 
     }
 }

@@ -1,6 +1,7 @@
 import java.math.BigDecimal;
 
 public class Vendor implements Runnable{
+
     private final TicketPool ticketPool;
     private final int totalTickets;
     private final int ticketReleaseRate;
