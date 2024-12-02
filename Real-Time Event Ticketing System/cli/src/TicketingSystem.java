@@ -5,14 +5,16 @@ import java.util.function.Predicate;
 
 public class TicketingSystem {
 
+    // An atomic boolean which can be accessed by all threads, to start/stop threads
     public static final AtomicBoolean stopFlag = new AtomicBoolean(false);
 
     public static void main(String[] args) {
 
         System.out.println("Welcome to the Ticketing System Simulation!");
 
-//        boolean runSystem = true;
         Scanner scanner = new Scanner(System.in);
+
+        // Main Loop
         while (true) {
 
             System.out.println("Enter a number to make a selection from the menu below");
@@ -24,6 +26,8 @@ public class TicketingSystem {
             System.out.print("Enter your choice : ");
 
             int choice;
+
+            // local configuration variable
             Configuration config = null;
 
             try {
@@ -36,17 +40,14 @@ public class TicketingSystem {
             switch (choice) {
                 case 1:
                     config = getConfiguration(scanner);
-//                    ConfigManager.saveConfiguration(config);
                     Configuration.saveConfiguration(config);
                     System.out.println(config);
                     break;
                 case 2:
-//                    config = ConfigManager.loadConfiguration();
                     config = Configuration.loadConfiguration();
                     if (config == null) {
                         System.out.println("Since No configuration found, Create new Configurations for the system");
                         config = getConfiguration(scanner);
-//                        ConfigManager.saveConfiguration(config);
                         Configuration.saveConfiguration(config);
                         System.out.println(config);
                         break;
@@ -64,9 +65,13 @@ public class TicketingSystem {
                     continue;
             }
 
-
+            // user command variable
             String userCmd;
+
+            // control simulation loop
             boolean runSimulation = true;
+
+            // Simulation Loop
             while (runSimulation) {
                 System.out.println("\nPlease enter a command : [ 'start', 'stop', 'menu', 'quit' ] ");
                 try {
@@ -104,6 +109,11 @@ public class TicketingSystem {
         }
     }
 
+    /**
+     * Method to get validated configuration values and store them appropriately
+     * @param scanner Scanner instance
+     * @return a Configuration instance
+     */
     public static Configuration getConfiguration(Scanner scanner) {
 
         // Get user input and store in appropriate attributes
@@ -114,8 +124,6 @@ public class TicketingSystem {
 
         return new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
     }
-
-
 
 
     /**
@@ -138,15 +146,22 @@ public class TicketingSystem {
                 } else {
                     System.out.println(errorMessage);
                 }
-            } catch (NumberFormatException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("Please enter a valid integer.");
+                scanner.next(); // dispose the input
             }
         }
     }
 
 
+    /**
+     * method to start the simulation of customer and vendor threads
+     * @param config Configuration Object with the config values
+     * @param userCmd user input command to start/stop the simulation
+     */
     public static void startSystem(Configuration config, String userCmd) {
 
+        // ticket pool instance
         TicketPool ticketPool = new TicketPool(config);
 
         // Thread which listens for the "stop" command to stop simulation
@@ -161,22 +176,13 @@ public class TicketingSystem {
             }
         }).start();
 
+        // Loop to create a said number of customer and vendor threads
+        for (int i=1; i<=5; i++){
+            Thread vendorThread = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "vendor"+i);
+            vendorThread.start();
 
-
-        Thread vendor1 = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "vendor1");
-        Thread vendor2 = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "vendor2");
-        Thread vendor3 = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "vendor3");
-        vendor1.start();
-        vendor2.start();
-        vendor3.start();
-
-        Thread customer1 = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 10), "customer1");
-        Thread customer2 = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "customer2");
-        Thread customer3 = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "customer3");
-        customer1.start();
-        customer2.start();
-        customer3.start();
-
-
+            Thread customerThread = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "customer"+i);
+            customerThread.start();
+        }
     }
 }

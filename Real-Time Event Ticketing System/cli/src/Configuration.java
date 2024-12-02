@@ -74,7 +74,9 @@ public class Configuration {
      * @param config Configuration object
      */
     public static void saveConfiguration(Configuration config) {
+
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
         try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
             gson.toJson(config, writer);
             System.out.println("Configuration saved successfully.");
@@ -89,12 +91,14 @@ public class Configuration {
      * @return config object
      */
     public static Configuration loadConfiguration() {
+
         Gson gson = new Gson();
+
         try (FileReader reader = new FileReader(CONFIG_FILE)) {
             return gson.fromJson(reader, Configuration.class);
         } catch (IOException e) {
             System.out.println("Config file not found.");
-            return null; // Return null
+            return null; // Return null on error
         }
     }
 

@@ -53,26 +53,33 @@ public class TicketPool {
     }
 
 
+
+
     /**
      * Method for Vendors to release Tickets to the pool.
      * Block if the pool is full, notifies waiting customer threads once a ticket is released.
      * @param ticket the ticket to be added to the pool.
      */
     public  void addTickets(Ticket ticket) {
+
         lock.lock();
+
         try {
             while (ticketQueue.size() >= maxCapacity) {
                 logger.log(Level.INFO, Thread.currentThread().getName() + ": Waiting.. Ticket pool is full");
                 notFull.await(); // wait until not full signal
             }
+
             releasedTicketCount++;
             ticket.setTicketId(getReleasedTicketCount()); // set Ticket ID accordingly based on release
             ticketQueue.add(ticket); // add Ticket to Ticket Queue
             logger.log(Level.INFO, Thread.currentThread().getName() + ": Added a ticket. Tickets available in the pool - " + ticketQueue.size());
             notEmpty.signal(); // notify a waiting customer
+
         } catch (InterruptedException e){
             logger.log(Level.SEVERE, Thread.currentThread().getName() + ": Thread interrupted while adding a Ticket to the pool - " + e.getMessage());
-            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt(); // interrupt the error thread from running
+
         } finally {
             lock.unlock(); // Release Lock
         }
@@ -85,24 +92,29 @@ public class TicketPool {
      * @return the Ticket removed from head of the queue
      */
     public Ticket buyTickets() {
+
         lock.lock();
+
         try{
             while (ticketQueue.isEmpty()) {
                 logger.log(Level.INFO, Thread.currentThread().getName() + ": Waiting.. Ticket pool is empty");
-                notEmpty.await();
+                notEmpty.await(); // waits until pool not empty signal from a vendor
             }
+
             Ticket ticket = ticketQueue.poll(); // Retrieve and remove the head of the queue
-            logger.log(Level.INFO, Thread.currentThread().getName() + ": Purchased a ticket from the pool.\n" + ticket);
+            logger.log(Level.INFO, Thread.currentThread().getName() + ": Purchased a ticket from the pool.\n" + ticket + "\nTickets available in the pool - " + ticketQueue.size());
             notFull.signal(); // notify a waiting vendor
 
             return ticket;
+
         } catch (InterruptedException e) {
             logger.log(Level.SEVERE, Thread.currentThread().getName() + ": Thread interrupted while buying a Ticket from the pool");
             Thread.currentThread().interrupt();
 
             return null;
+
         } finally {
-            lock.unlock(); // release lock
+            lock.unlock(); // releases lock
         }
     }
 

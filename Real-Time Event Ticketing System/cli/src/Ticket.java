@@ -1,16 +1,11 @@
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class Ticket {
 
     private int ticketId;
-
     private String eventName;
-
     private String eventDate;
-
     private String eventLocation;
-
     private BigDecimal ticketPrice; // Use big decimal when dealing with prices
 
 
