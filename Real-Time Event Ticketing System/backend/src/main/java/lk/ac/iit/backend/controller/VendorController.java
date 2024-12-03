@@ -24,12 +24,12 @@ public class VendorController {
     }
 
     @GetMapping("/{id}")
-    public Vendor findVendorById(@PathVariable Integer id) {
+    public Vendor getVendorById(@PathVariable Integer id) {
         return vendorService.getVendorById(id);
     }
 
     @GetMapping
-    public List<Vendor> findAllVendors() {
+    public List<Vendor> getAllVendors() {
         return vendorService.getAllVendors();
     }
 

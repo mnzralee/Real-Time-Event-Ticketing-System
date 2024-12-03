@@ -16,7 +16,6 @@ public class Customer {
 
     private String email;
 
-    private String password;
 
     @OneToMany(mappedBy = "customer")
     private List<Ticket> tickets;
@@ -29,11 +28,10 @@ public class Customer {
 
     public Customer() {};
 
-    public Customer(String firstName, String lastName, String email, String password) {
+    public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
     }
 
     // GETTERS and SETTERS
@@ -70,13 +68,6 @@ public class Customer {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public List<Ticket> getTickets() {
         return tickets;
