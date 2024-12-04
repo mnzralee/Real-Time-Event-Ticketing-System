@@ -120,7 +120,7 @@ public class TicketingSystem {
         int totalTickets = validateConfig(scanner, "Enter Total Tickets: ", value -> value > 0, "Total Tickets must be a positive integer.");
         int ticketReleaseRate = validateConfig(scanner, "Enter Ticket Release Rate: ", value -> value > 0, "Ticket Release Rate must be a positive integer.");
         int customerRetrievalRate = validateConfig(scanner, "Enter Customer Retrieval Rate: ", value -> value > 0, "Customer Retrieval Rate must be a positive integer.");
-        int maxTicketCapacity = validateConfig(scanner, "Enter Maximum Ticket Capacity: ", value -> value > totalTickets, "Maximum Ticket Capacity must be greater than Total Tickets.");
+        int maxTicketCapacity = validateConfig(scanner, "Enter Maximum Ticket Capacity: ", value -> value > 0, "Maximum Ticket Capacity must be greater than Total Tickets.");
 
         return new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
     }
@@ -155,7 +155,7 @@ public class TicketingSystem {
 
 
     /**
-     * method to start the simulation of customer and vendor threads
+     * method to start (simulation) customer and vendor threads
      * @param config Configuration Object with the config values
      * @param userCmd user input command to start/stop the simulation
      */
@@ -176,13 +176,18 @@ public class TicketingSystem {
             }
         }).start();
 
+        // vip customer with higher priority
+        Thread vipCustomerThread = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "Customer_vip");
+        vipCustomerThread.start();
+
         // Loop to create a said number of customer and vendor threads
         for (int i=1; i<=5; i++){
-            Thread vendorThread = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "vendor"+i);
+            Thread vendorThread = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "Vendor"+i);
             vendorThread.start();
 
-            Thread customerThread = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "customer"+i);
+            Thread customerThread = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "Customer"+i);
             customerThread.start();
         }
+
     }
 }

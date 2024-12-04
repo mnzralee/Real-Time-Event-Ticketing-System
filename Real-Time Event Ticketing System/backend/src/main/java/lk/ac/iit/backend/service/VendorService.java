@@ -22,7 +22,7 @@ public class VendorService {
     }
 
     public Vendor getVendorById(Integer id) {
-        return vendorRepository.findById(Long.valueOf(id))
+        return vendorRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Vendor ID: " + id));
     }
 
@@ -39,9 +39,9 @@ public class VendorService {
     }
 
     public void deleteVendor(Integer id) {
-        if (!vendorRepository.existsById(Long.valueOf(id))) {
+        if (!vendorRepository.existsById(id)) {
             throw new IllegalArgumentException("Invalid Vendor ID: " + id);
         }
-        vendorRepository.deleteById(Long.valueOf(id));
+        vendorRepository.deleteById(id);
     }
 }

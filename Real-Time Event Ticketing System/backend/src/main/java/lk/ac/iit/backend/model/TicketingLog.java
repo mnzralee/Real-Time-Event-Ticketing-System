@@ -19,6 +19,8 @@ public class TicketingLog {
     private Vendor vendor;
 
 
+
+
     // CONSTRUCTOR
 
     public TicketingLog() {};

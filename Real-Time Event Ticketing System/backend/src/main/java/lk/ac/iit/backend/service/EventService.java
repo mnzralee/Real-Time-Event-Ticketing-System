@@ -23,7 +23,7 @@ public class EventService {
     }
 
     public Event getEventById(Integer id) {
-        return eventRepository.findById(Long.valueOf(id))
+        return eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Event ID: " + id));
     }
 
@@ -41,9 +41,9 @@ public class EventService {
     }
 
     public void deleteEvent(Integer id) {
-        if(!eventRepository.existsById(Long.valueOf(id))) {
+        if(!eventRepository.existsById(id)) {
             throw new IllegalArgumentException("Invalid Event ID: " + id);
         }
-        eventRepository.deleteById(Long.valueOf(id));
+        eventRepository.deleteById(id);
     }
 }

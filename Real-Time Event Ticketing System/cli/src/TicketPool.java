@@ -117,6 +117,4 @@ public class TicketPool {
             lock.unlock(); // releases lock
         }
     }
-
-
 }

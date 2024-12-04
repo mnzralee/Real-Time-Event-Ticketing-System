@@ -22,7 +22,7 @@ public class CustomerService {
     }
 
     public Customer getCustomerById(Integer id) {
-        return customerRepository.findById(Long.valueOf(id))
+        return customerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid ID:" + id));
     }
 
@@ -39,10 +39,10 @@ public class CustomerService {
     }
 
     public void deleteCustomer(Integer id) {
-        if (!customerRepository.existsById(Long.valueOf(id))){
+        if (!customerRepository.existsById(id)){
             throw new IllegalArgumentException("Invalid ID: " + id);
         }
-        customerRepository.deleteById(Long.valueOf(id));
+        customerRepository.deleteById(id);
     }
 
 }

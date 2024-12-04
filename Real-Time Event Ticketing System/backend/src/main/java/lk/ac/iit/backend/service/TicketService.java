@@ -21,7 +21,7 @@ public class TicketService {
     }
 
     public Ticket getTicketById(Integer id) {
-        return ticketRepository.findById(Long.valueOf(id))
+        return ticketRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Ticket ID: " + id));
     }
 
@@ -37,9 +37,9 @@ public class TicketService {
     }
 
     public void deleteTicket(Integer id) {
-        if (!ticketRepository.existsById(Long.valueOf(id))) {
+        if (!ticketRepository.existsById(id)) {
             throw new IllegalArgumentException("Invalid Ticket ID: " + id);
         }
-        ticketRepository.deleteById(Long.valueOf(id));
+        ticketRepository.deleteById(id);
     }
 }

@@ -24,6 +24,13 @@ public class Customer implements Runnable{
     @Override
     public void run() {
 
+        // Requests JVM to prioritize customer threads which contains '_vip' in its name
+        if ( Thread.currentThread().getName().contains("_vip")) {
+            Thread.currentThread().setPriority(10);
+        } else {
+            Thread.currentThread().setPriority(5);
+        }
+
         for (int i = 0; i < quantity; i++) {
 
             // STOPS simulation if stopFlag true
