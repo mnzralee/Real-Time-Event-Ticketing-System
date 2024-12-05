@@ -11,8 +11,8 @@
 	<groupId>lk.ac.iit</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>backend</name>
-	<description>Spring Boot backend designed for a Real-Time Event Ticketing System.</description>
+	<eventName>backend</eventName>
+	<message>Spring Boot backend designed for a Real-Time Event Ticketing System.</message>
 	<url/>
 	<licenses>
 		<license/>

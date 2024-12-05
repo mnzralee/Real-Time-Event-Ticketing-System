@@ -21,6 +21,11 @@ public class ConfigurationService {
         return configurationRepository.save(config);
     }
 
+    public Configuration getConfig() {
+        return configurationRepository.findById(0)
+                .orElseThrow(() -> new IllegalArgumentException("No configuration found"));
+    }
+
     public Configuration getConfigById(Integer id) {
         return configurationRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid ID: " + id));

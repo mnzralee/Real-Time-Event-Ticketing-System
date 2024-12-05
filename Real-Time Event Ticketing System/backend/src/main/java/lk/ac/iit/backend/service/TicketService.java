@@ -31,7 +31,7 @@ public class TicketService {
 
     public Ticket updateTicket(Integer id, Ticket updatedTicket) {
         Ticket existingTicket = getTicketById(id);
-        existingTicket.setName(updatedTicket.getName());
+        existingTicket.setEventName(updatedTicket.getEventName());
         existingTicket.setDescription(updatedTicket.getDescription());
         return ticketRepository.save(existingTicket);
     }

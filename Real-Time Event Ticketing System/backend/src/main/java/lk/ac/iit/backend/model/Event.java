@@ -16,30 +16,13 @@ public class Event {
     private Date date;
     private String eventStatus;
 
-    /**
-     * one-to-one relationship
-     * Vendor for the event
-     */
-    @OneToOne
-    @JoinColumn(name = "vendor_id")
-    private Vendor vendor;
-
-    /**
-     * one-to-one relationship
-     * Ticket pool for the event
-     */
-    @OneToOne
-    @JoinColumn(name = "ticket_id")
-    private Ticket ticket;
 
 
     // CONSTRUCTOR
 
     public Event() {};
 
-    public Event(Vendor vendor, Ticket ticket, String eventName, String description, String location, Date date) {
-        this.vendor = vendor;
-        this.ticket = ticket;
+    public Event(String eventName, String description, String location, Date date) {
         this.eventName = eventName;
         this.description = description;
         this.location = location;
@@ -97,19 +80,4 @@ public class Event {
         this.eventStatus = eventStatus;
     }
 
-    public Vendor getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
-    }
-
-    public Ticket getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
 }

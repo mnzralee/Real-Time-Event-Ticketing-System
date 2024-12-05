@@ -7,13 +7,13 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
+    private String eventName;
     private String description;
     private String status;
 
-    @OneToOne
-    @JoinColumn(name = "event_id")
-    private Event event;
+    @ManyToOne
+    @JoinColumn(name = "vendor_id")
+    private Vendor vendor;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -24,11 +24,9 @@ public class Ticket {
 
     public Ticket() {};
 
-    public Ticket(String name, String description, String status, Event event) {
-        this.name = name;
+    public Ticket(String eventName, String description) {
+        this.eventName = eventName;
         this.description = description;
-        this.status = status;
-        this.event = event;
     }
 
 
@@ -42,12 +40,12 @@ public class Ticket {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
     public String getDescription() {
@@ -66,19 +64,19 @@ public class Ticket {
         this.status = status;
     }
 
-    public Event getEvent() {
-        return event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
     public Customer getCustomer() {
         return customer;
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
 }

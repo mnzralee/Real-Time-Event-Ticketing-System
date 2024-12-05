@@ -22,7 +22,7 @@ public class Vendor {
      * one-to-one relationship
      * Vendor - Event
      */
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
 

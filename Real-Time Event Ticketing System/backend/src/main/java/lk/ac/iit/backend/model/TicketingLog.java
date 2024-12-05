@@ -2,13 +2,18 @@ package lk.ac.iit.backend.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class TicketingLog {
     @Id
     @GeneratedValue
     private Integer id;
 
-    private String description;
+    private String message;
+
+    @Column(nullable = false)
+    private LocalDateTime timestamp = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -25,8 +30,8 @@ public class TicketingLog {
 
     public TicketingLog() {};
 
-    public TicketingLog(String description, Customer customer, Vendor vendor) {
-        this.description = description;
+    public TicketingLog(String message, Customer customer, Vendor vendor) {
+        this.message = message;
         this.customer = customer;
         this.vendor = vendor;
     }
@@ -42,12 +47,12 @@ public class TicketingLog {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getMessage() {
+        return message;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Customer getCustomer() {
@@ -64,5 +69,13 @@ public class TicketingLog {
 
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }
