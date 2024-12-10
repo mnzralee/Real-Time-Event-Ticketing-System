@@ -21,6 +21,7 @@ public class ConfigurationService {
         if (configurationRepository.existsById(1)){
             config = updateConfig(1, config);
         }
+        config.setId(1);
         return configurationRepository.save(config);
     }
 

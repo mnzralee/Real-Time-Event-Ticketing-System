@@ -1,6 +1,6 @@
 <div class="comp_container">
     <div class="sub_con">
-        Simulation start/stop btns
+      <app-control-panel></app-control-panel>
     </div>
 
     <div class="sub_con mt-4">
@@ -8,7 +8,12 @@
 
         
         <div class="container mb-3">
-            <h2 class="regular_header mb-3">Log Messages</h2>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="regular_header mb-0">Log Messages</h2>
+            <button class="btn btn_sm btn-light" (click)="clearAllLogs()" [disabled]="logMessages.length === 0">
+                <i class="fa fa-trash"></i>
+            </button>
+            </div>
             <div class="card p-3 bg-light" *ngIf="logMessages.length === 0; else logList">
               <p class="text_log">No logs available yet...</p>
             </div>

@@ -44,7 +44,7 @@ export class VendorsComponent implements OnInit {
         }
     });
     this.getAllVendors();
-}
+  }
 
 
   // method to get all vendor
