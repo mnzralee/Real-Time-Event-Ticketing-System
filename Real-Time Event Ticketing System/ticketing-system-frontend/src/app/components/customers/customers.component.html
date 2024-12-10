@@ -1,1 +1,95 @@
-<p>customers works!</p>
+<div class="comp_container">
+    <div class="sub_con">
+        <div class="container">
+            <h2 class="regular_header">Add New Customer</h2>
+            <form (ngSubmit)="createCustomer(customerForm)" #customerForm="ngForm">
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <input type="text" 
+                               class="form-control" 
+                               name="firstName" 
+                               id="firstname" 
+                               placeholder="First Name" 
+                               [(ngModel)]="newCustomer.firstName" 
+                               required 
+                               minlength="2"
+                               #firstName="ngModel">
+                        <div *ngIf="firstName.invalid && firstName.touched" class="text-danger">
+                            <small *ngIf="firstName.errors?.['required']">First Name is required.</small>
+                            <small *ngIf="firstName.errors?.['minlength']">First Name must be at least 2 characters long.</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" 
+                               class="form-control" 
+                               name="lastName" 
+                               id="lastname" 
+                               placeholder="Last Name" 
+                               [(ngModel)]="newCustomer.lastName" 
+                               required 
+                               minlength="2"
+                               #lastName="ngModel">
+                        <div *ngIf="lastName.invalid && lastName.touched" class="text-danger">
+                            <small *ngIf="lastName.errors?.['required']">Last Name is required.</small>
+                            <small *ngIf="lastName.errors?.['minlength']">Last Name must be at least 2 characters long.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-6">
+                        <input type="email" 
+                               class="form-control" 
+                               name="email" 
+                               id="email" 
+                               placeholder="Email" 
+                               [(ngModel)]="newCustomer.email" 
+                               required 
+                               email
+                               #email="ngModel">
+                        <div *ngIf="email.invalid && email.touched" class="text-danger">
+                            <small *ngIf="email.errors?.['required']">Email is required.</small>
+                            <small *ngIf="email.errors?.['email']">Enter a valid email address.</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-success mt-0 mb-0 m-5" 
+                                type="submit" 
+                                [disabled]="customerForm.invalid">
+                            Add Customer
+                        </button>
+                    </div>
+                </div>
+            </form>    
+        </div>
+    </div>
+
+    <div class="sub_con mt-4">
+        <div class="container">
+            <h2 class="regular_header">All Customers</h2>
+            <div *ngIf="!(customers.length>0);else customerList">
+                <p class="mt-4 small">No Data</p>
+            </div>
+            <ng-template #customerList>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let customer of customers">
+                            <td>{{ customer.firstName }}</td>
+                            <td>{{ customer.lastName }}</td>
+                            <td>{{ customer.email }}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm" (click)="deleteCustomer(customer.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+    </div>
+</div>

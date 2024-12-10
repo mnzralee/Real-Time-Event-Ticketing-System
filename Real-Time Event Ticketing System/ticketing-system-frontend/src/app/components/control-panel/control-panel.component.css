@@ -1,0 +1,9 @@
+button:disabled {
+    transform: scale(0.9);
+}
+
+.alert span{
+    font-size: 14px;
+    font-weight: 400;
+    padding: 10px 20px;
+}

@@ -1,6 +1,8 @@
 package lk.ac.iit.backend.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Ticket {
@@ -13,10 +15,12 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "vendor_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Vendor vendor;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Customer customer;
 
 

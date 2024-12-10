@@ -60,7 +60,7 @@ export class VendorsComponent implements OnInit {
   deleteVendor(id: any): void {
     if(confirm('Are you sure you want to delete this vendor?')) {
       this.vendorService.deleteVendor(id);
-      this.vendors = this.vendors.filter((vendor) => vendor.id !== id);
+      this.vendors = this.vendors.filter((vendor) => vendor.id !== id); // Remove deleted vendor from vendors list
     }
   }
  

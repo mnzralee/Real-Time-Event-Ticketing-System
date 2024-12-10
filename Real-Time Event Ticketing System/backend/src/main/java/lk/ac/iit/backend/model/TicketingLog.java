@@ -17,15 +17,15 @@ public class TicketingLog {
 //    @Column(nullable = false)
 //    private LocalDateTime timestamp = LocalDateTime.now();
 //
-//    @ManyToOne
-//    @JoinColumn(name = "customer_id")
-//    @OnDelete(action = OnDeleteAction.SET_NULL)
-//    private Customer customer;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "vendor_id")
-//    @OnDelete(action = OnDeleteAction.SET_NULL)
-//    private Vendor vendor;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "vendor_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Vendor vendor;
 
 
 
@@ -58,21 +58,21 @@ public class TicketingLog {
         this.message = message;
     }
 
-//    public Customer getCustomer() {
-//        return customer;
-//    }
-//
-//    public void setCustomer(Customer customer) {
-//        this.customer = customer;
-//    }
-//
-//    public Vendor getVendor() {
-//        return vendor;
-//    }
-//
-//    public void setVendor(Vendor vendor) {
-//        this.vendor = vendor;
-//    }
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
 
 //    public LocalDateTime getTimestamp() {
 //        return timestamp;

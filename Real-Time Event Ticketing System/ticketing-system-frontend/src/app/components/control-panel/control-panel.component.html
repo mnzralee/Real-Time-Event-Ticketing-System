@@ -1,13 +1,35 @@
-<div class="container">
-    <div class="d-flex justify-content-center align-items-center flex-column">
-        <h2 class="regular_header_s mb-3">Simulation Control Panel</h2>
-        <div class="btn-group">
-            <button type="button" class="btn btn-success px-5 me-2" (click)="startSimulation()">
-                Start
-            </button>
-            <button type="button" class="btn btn-danger px-5" (click)="stopSimulation()">
-                Stop
-            </button>
+<div class="container d-flex justify-content-center align-items-center my-1">
+    <!-- Compact Card -->
+    <div class="card shadow-sm border-0 p-0" style="max-width: 400px; width: 100%;">
+      <div class="card-body text-center">
+        <h5 class="card-title text-uppercase fw-bold regular_header mb-3">Control Panel</h5>
+        
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between mb-4">
+          <button 
+            type="button" 
+            class="btn btn-outline-success btn-sm flex-fill me-2" 
+            (click)="startSimulation()" 
+            [disabled]="isSimulationRunning">
+            <i class="bi bi-play-fill"></i> Start
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-outline-danger btn-sm flex-fill" 
+            (click)="stopSimulation()" 
+            [disabled]="!isSimulationRunning">
+            <i class="bi bi-stop-fill"></i> Stop
+          </button>
         </div>
+        
+        <!-- Status Message -->
+        <div class="alert text-center p-2" role="alert" *ngIf="isSimulationRunning">
+          <span class="text-success"><i class="bi bi-check-circle-fill me-2"></i>Simulation Running</span>
+        </div>
+        <div class="alert text-center p-2" role="alert" *ngIf="!isSimulationRunning">
+          <span class="text-danger"><i class="bi bi-x-circle-fill me-2"></i>Simulation Stopped</span>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+  
