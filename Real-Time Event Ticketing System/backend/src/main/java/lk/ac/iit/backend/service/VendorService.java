@@ -12,12 +12,16 @@ public class VendorService {
 
     private final VendorRepository vendorRepository;
 
+    private TicketingLogService ticketingLogService;
+
     @Autowired
-    public VendorService(VendorRepository vendorRepository) {
+    public VendorService(VendorRepository vendorRepository, TicketingLogService ticketingLogService) {
         this.vendorRepository = vendorRepository;
+        this.ticketingLogService = ticketingLogService;
     }
 
     public Vendor addVendor(Vendor vendor) {
+        ticketingLogService.saveLog("Created A New Vendor");
         return vendorRepository.save(vendor);
     }
 

@@ -18,21 +18,6 @@ public class Vendor {
     @Column(unique = true)
     private String email;
 
-    /**
-     * one-to-one relationship
-     * Vendor - Event
-     */
-    @ManyToOne
-    @JoinColumn(name = "event_id")
-    private Event event;
-
-    /**
-     * one-to-many relationship
-     * List of Logs for Vendor
-     */
-    @OneToMany(mappedBy = "vendor")
-    private List<TicketingLog> ticketingLogs;
-
 
     // CONSTRUCTOR
 
@@ -79,19 +64,4 @@ public class Vendor {
         this.email = email;
     }
 
-    public Event getEvent() {
-        return event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    public List<TicketingLog> getTicketingLogs() {
-        return ticketingLogs;
-    }
-
-    public void setTicketingLogs(List<TicketingLog> ticketingLogs) {
-        this.ticketingLogs = ticketingLogs;
-    }
 }

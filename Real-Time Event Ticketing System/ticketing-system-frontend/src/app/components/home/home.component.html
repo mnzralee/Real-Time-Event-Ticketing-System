@@ -1,0 +1,29 @@
+<div class="comp_container">
+    <div class="sub_con">
+        Simulation start/stop btns
+    </div>
+
+    <div class="sub_con mt-4">
+
+
+        
+        <div class="container mb-3">
+            <h2 class="regular_header mb-3">Log Messages</h2>
+            <div class="card p-3 bg-light" *ngIf="logMessages.length === 0; else logList">
+              <p class="text_log">No logs available yet...</p>
+            </div>
+          
+            <ng-template #logList>
+                    <div class="card">
+                      <div class="card-body">
+                        <ul class="list-group">
+                          <li *ngFor="let log of logMessages" class="list-group-item text_log m-0">
+                            {{ log }}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+            </ng-template>
+        </div>          
+    </div>
+</div>

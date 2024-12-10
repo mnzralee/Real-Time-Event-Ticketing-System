@@ -75,7 +75,7 @@ public class TicketingSystem {
             while (runSimulation) {
                 System.out.println("\nPlease enter a command : [ 'start', 'stop', 'menu', 'quit' ] ");
                 try {
-                    userCmd = scanner.next();
+                    userCmd = scanner.next().toLowerCase();
                 } catch (Exception e) {
                     System.out.println("error try again..");
                     continue;
@@ -95,13 +95,11 @@ public class TicketingSystem {
                         // starts program from menu
                         runSimulation = false;
                         break;
-
                     case "quit":
                         System.out.println("Exiting the system...");
                         runSimulation = false;
                         System.exit(0);
                         break;
-
                     default:
                         System.out.println("Invalid command. Try 'start', 'stop', 'menu' or 'quit'. ");
                 }
@@ -188,6 +186,5 @@ public class TicketingSystem {
             Thread customerThread = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "Customer"+i);
             customerThread.start();
         }
-
     }
 }

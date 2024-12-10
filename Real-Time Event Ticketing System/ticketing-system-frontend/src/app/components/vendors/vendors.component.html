@@ -1,0 +1,95 @@
+<div class="comp_container">
+    <div class="sub_con">
+        <div class="container">
+            <h2 class="regular_header">Add New Vendor</h2>
+            <form (ngSubmit)="createVendor(vendorForm)" #vendorForm="ngForm">
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <input type="text" 
+                               class="form-control" 
+                               name="firstName" 
+                               id="firstname" 
+                               placeholder="First Name" 
+                               [(ngModel)]="newVendor.firstName" 
+                               required 
+                               minlength="2"
+                               #firstName="ngModel">
+                        <div *ngIf="firstName.invalid && firstName.touched" class="text-danger">
+                            <small *ngIf="firstName.errors?.['required']">First Name is required.</small>
+                            <small *ngIf="firstName.errors?.['minlength']">First Name must be at least 2 characters long.</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" 
+                               class="form-control" 
+                               name="lastName" 
+                               id="lastname" 
+                               placeholder="Last Name" 
+                               [(ngModel)]="newVendor.lastName" 
+                               required 
+                               minlength="2"
+                               #lastName="ngModel">
+                        <div *ngIf="lastName.invalid && lastName.touched" class="text-danger">
+                            <small *ngIf="lastName.errors?.['required']">Last Name is required.</small>
+                            <small *ngIf="lastName.errors?.['minlength']">Last Name must be at least 2 characters long.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-6">
+                        <input type="email" 
+                               class="form-control" 
+                               name="email" 
+                               id="email" 
+                               placeholder="Email" 
+                               [(ngModel)]="newVendor.email" 
+                               required 
+                               email
+                               #email="ngModel">
+                        <div *ngIf="email.invalid && email.touched" class="text-danger">
+                            <small *ngIf="email.errors?.['required']">Email is required.</small>
+                            <small *ngIf="email.errors?.['email']">Enter a valid email address.</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-success mt-0 mb-0 m-5" 
+                                type="submit" 
+                                [disabled]="vendorForm.invalid">
+                            Add Vendor
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+    <div class="sub_con mt-4">
+        <div class="container">
+            <h2 class="regular_header">All Vendors</h2>
+            <div *ngIf="!(vendors.length>0);else vendorList">
+                <p class="mt-4 small">No Data</p>
+            </div>
+            <ng-template #vendorList>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let vendor of vendors">
+                            <td>{{ vendor.firstName }}</td>
+                            <td>{{ vendor.lastName }}</td>
+                            <td>{{ vendor.email }}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm" (click)="deleteVendor(vendor.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+    </div>
+</div>

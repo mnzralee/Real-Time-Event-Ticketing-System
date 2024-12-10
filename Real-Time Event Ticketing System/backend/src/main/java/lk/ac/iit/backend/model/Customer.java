@@ -17,13 +17,6 @@ public class Customer {
     private String email;
 
 
-    @OneToMany(mappedBy = "customer")
-    private List<Ticket> tickets;
-
-    @OneToMany(mappedBy = "customer")
-    private List<TicketingLog> ticketingLogs;
-
-
     // CONSTRUCTOR
 
     public Customer() {};
@@ -66,22 +59,5 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
-    public List<TicketingLog> getTicketingLogs() {
-        return ticketingLogs;
-    }
-
-    public void setTicketingLogs(List<TicketingLog> ticketingLogs) {
-        this.ticketingLogs = ticketingLogs;
     }
 }

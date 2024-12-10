@@ -18,11 +18,14 @@ public class ConfigurationService {
     }
 
     public Configuration addConfig(Configuration config) {
+        if (configurationRepository.existsById(1)){
+            config = updateConfig(1, config);
+        }
         return configurationRepository.save(config);
     }
 
     public Configuration getConfig() {
-        return configurationRepository.findById(0)
+        return configurationRepository.findById(1)
                 .orElseThrow(() -> new IllegalArgumentException("No configuration found"));
     }
 

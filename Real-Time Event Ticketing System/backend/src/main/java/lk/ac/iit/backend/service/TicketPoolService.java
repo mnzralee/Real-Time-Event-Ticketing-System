@@ -4,6 +4,8 @@ import lk.ac.iit.backend.model.Customer;
 import lk.ac.iit.backend.model.Ticket;
 import lk.ac.iit.backend.model.Vendor;
 import lk.ac.iit.backend.repository.TicketRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Service
 public class TicketPoolService {
@@ -21,8 +22,9 @@ public class TicketPoolService {
 
     private final ConcurrentLinkedQueue<Ticket> ticketQueue = new ConcurrentLinkedQueue<>();
 
-    private final Logger logger = Logger.getLogger(TicketPoolService.class.getName());
     private final ReentrantLock lock = new ReentrantLock();
+
+    private final Logger logger = LoggerFactory.getLogger(TicketPoolService.class);
 
     private final Condition notEmpty = lock.newCondition();
     private final Condition notFull = lock.newCondition();
@@ -40,7 +42,8 @@ public class TicketPoolService {
         lock.lock();
         try {
             while (ticketQueue.size() >= maxCapacity) {
-                logger.log(Level.INFO, Thread.currentThread().getName() + ": Waiting.. Ticket pool is full");
+//                logger.log(Level.INFO, vendor.getFirstName()  + ": Waiting.. Ticket pool is full");
+                ticketingLogService.saveLog(": Waiting.. Ticket pool is full", vendor);
                 notFull.await();
             }
 
@@ -48,8 +51,8 @@ public class TicketPoolService {
             ticket.setStatus("Available");
             ticket = ticketRepository.save(ticket); // Persist before adding to queue
             ticketQueue.add(ticket);
-            logger.log(Level.INFO, vendor.getFirstName() + ": Added ticket. Pool size: " + ticketQueue.size());
-            ticketingLogService.saveLog(vendor.getFirstName() + ": Added a ticket to the pool. Tickets in pool - " + ticketQueue.size(), vendor);
+//            logger.log(Level.INFO, vendor.getFirstName() + ": Added ticket. Pool size: " + ticketQueue.size());
+            ticketingLogService.saveLog(": Added a ticket to the pool. Tickets in pool - " + ticketQueue.size(), vendor);
             notEmpty.signal();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -63,7 +66,8 @@ public class TicketPoolService {
         lock.lock();
         try {
             while (ticketQueue.isEmpty()) {
-                logger.log(Level.INFO, Thread.currentThread().getName() + ": Waiting.. Ticket pool is full");
+//                logger.log(Level.INFO, customer.getFirstName() +  ": Waiting.. Ticket pool is empty");
+                ticketingLogService.saveLog(": Waiting.. Ticket pool is empty", customer);
                 notEmpty.await();
             }
             Ticket ticket = ticketQueue.poll();
@@ -72,11 +76,11 @@ public class TicketPoolService {
                 ticket.setStatus("SOLD");
                 ticketRepository.save(ticket); // Persist the sold status
             }
-            logger.log(Level.INFO, customer.getFirstName() + ": Purchased a ticket. Pool size: " + ticketQueue.size());
-            ticketingLogService.saveLog(customer.getFirstName() + ": Added a ticket to the pool. Tickets in pool - " + ticketQueue.size(), customer);
+//            logger.log(Level.INFO, customer.getFirstName() + ": Purchased a ticket. Pool size: " + ticketQueue.size());
+            ticketingLogService.saveLog(": Purchased a ticket from the pool. Tickets in pool - " + ticketQueue.size(), customer);
             notFull.signal();
         } catch (InterruptedException e) {
-            logger.log(Level.INFO, Thread.currentThread().getName() + ": Interrupted");
+            logger.error("{}: Interrupted", Thread.currentThread().getName());
             Thread.currentThread().interrupt();
             throw new RuntimeException("Thread interrupted while buying ticket", e);
         } finally {

@@ -1,6 +1,8 @@
 package lk.ac.iit.backend.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -12,16 +14,18 @@ public class TicketingLog {
 
     private String message;
 
-    @Column(nullable = false)
-    private LocalDateTime timestamp = LocalDateTime.now();
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
-
-    @ManyToOne
-    @JoinColumn(name = "vendor_id")
-    private Vendor vendor;
+//    @Column(nullable = false)
+//    private LocalDateTime timestamp = LocalDateTime.now();
+//
+//    @ManyToOne
+//    @JoinColumn(name = "customer_id")
+//    @OnDelete(action = OnDeleteAction.SET_NULL)
+//    private Customer customer;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "vendor_id")
+//    @OnDelete(action = OnDeleteAction.SET_NULL)
+//    private Vendor vendor;
 
 
 
@@ -30,10 +34,9 @@ public class TicketingLog {
 
     public TicketingLog() {};
 
-    public TicketingLog(String message, Customer customer, Vendor vendor) {
+    public TicketingLog(String message) {
         this.message = message;
-        this.customer = customer;
-        this.vendor = vendor;
+
     }
 
 
@@ -55,27 +58,36 @@ public class TicketingLog {
         this.message = message;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
+//    public Customer getCustomer() {
+//        return customer;
+//    }
+//
+//    public void setCustomer(Customer customer) {
+//        this.customer = customer;
+//    }
+//
+//    public Vendor getVendor() {
+//        return vendor;
+//    }
+//
+//    public void setVendor(Vendor vendor) {
+//        this.vendor = vendor;
+//    }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
+//    public LocalDateTime getTimestamp() {
+//        return timestamp;
+//    }
+//
+//    public void setTimestamp(LocalDateTime timestamp) {
+//        this.timestamp = timestamp;
+//    }
 
-    public Vendor getVendor() {
-        return vendor;
-    }
 
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
+    @Override
+    public String toString() {
+        return "TicketingLog{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

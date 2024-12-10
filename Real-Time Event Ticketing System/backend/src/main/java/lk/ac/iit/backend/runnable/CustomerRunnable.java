@@ -3,6 +3,8 @@ package lk.ac.iit.backend.runnable;
 import lk.ac.iit.backend.model.Customer;
 import lk.ac.iit.backend.service.TicketPoolService;
 
+import static lk.ac.iit.backend.service.SimulationRunnerService.stopFlag;
+
 public class CustomerRunnable implements Runnable {
 
     private final TicketPoolService ticketPoolService;
@@ -20,11 +22,15 @@ public class CustomerRunnable implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < quantity; i++) {
+            if(stopFlag.get() || Thread.currentThread().isInterrupted()){
+                break;
+            }
             ticketPoolService.buyTicket(customer);
             try {
                 Thread.sleep(customerRetrievalRate);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                break;
             }
         }
     }

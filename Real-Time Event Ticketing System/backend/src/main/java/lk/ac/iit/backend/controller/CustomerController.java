@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
@@ -14,12 +15,12 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(@RequestBody CustomerService customerService) {
         this.customerService = customerService;
     }
 
     @PostMapping
-    public Customer addCustomer(Customer customer) {
+    public Customer addCustomer(@RequestBody Customer customer) {
         return customerService.addCustomer(customer);
     }
 
@@ -34,7 +35,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public Customer updateCustomer(@PathVariable Integer id, Customer customer) {
+    public Customer updateCustomer(@PathVariable Integer id, @RequestBody Customer customer) {
         return customerService.updateCustomer(id, customer);
     }
 

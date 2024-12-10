@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/config")
 public class ConfigurationController {
@@ -19,7 +20,7 @@ public class ConfigurationController {
     }
 
     @PostMapping
-    public Configuration addConfig(Configuration config) {
+    public Configuration addConfig(@RequestBody Configuration config) {
         return configurationService.addConfig(config);
     }
 
@@ -34,7 +35,7 @@ public class ConfigurationController {
     }
 
     @PutMapping("/{id}")
-    public Configuration updateConfig(@PathVariable Integer id, Configuration config) {
+    public Configuration updateConfig(@PathVariable Integer id, @RequestBody Configuration config) {
         return configurationService.updateConfig(id, config);
     }
 
