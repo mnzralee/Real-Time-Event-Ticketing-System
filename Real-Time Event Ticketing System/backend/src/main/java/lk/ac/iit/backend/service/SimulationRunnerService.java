@@ -37,6 +37,10 @@ public class SimulationRunnerService {
     // An atomic boolean which can be accessed by all threads, to start/stop threads
     public static final AtomicBoolean stopFlag = new AtomicBoolean(false);
 
+    /**
+     * Starts the simulation by creating and submitting VendorRunnable and CustomerRunnable tasks.
+     * Configures the simulation using the configuration service.
+     */
     public void startSimulation() {
         stopFlag.set(false);
         Configuration config = configurationService.getConfig();
@@ -59,6 +63,9 @@ public class SimulationRunnerService {
 
     }
 
+    /**
+     * Stops the simulation by setting the stop flag and shutting down the executor service.
+     */
     public void stopSimulation() {
         stopFlag.set(true);
         executorService.shutdown();

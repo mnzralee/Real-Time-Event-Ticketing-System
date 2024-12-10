@@ -28,6 +28,11 @@ public class TicketingLogService {
         this.messagingTemplate = messagingTemplate;
     }
 
+    /**
+     * Saves a log message related to a customer.
+     * @param message The log message.
+     * @param customer The customer associated with the log.
+     */
     public void saveLog(String message, Customer customer) {
         TicketingLog log = new TicketingLog();
         message = "Customer " + customer.getFirstName() + message;
@@ -40,6 +45,11 @@ public class TicketingLogService {
         messagingTemplate.convertAndSend("/topic/logs", log);
     }
 
+    /**
+     * Saves a log message related to a vendor.
+     * @param message The log message.
+     * @param vendor The vendor associated with the log.
+     */
     public void saveLog(String message, Vendor vendor) {
         TicketingLog log = new TicketingLog();
         message = "Vendor " + vendor.getFirstName() + message;
@@ -52,15 +62,26 @@ public class TicketingLogService {
         messagingTemplate.convertAndSend("/topic/logs", log);
     }
 
+    /**
+     * Retrieves all logs in descending order of ID.
+     * @return A list of all logs.
+     */
     public List<TicketingLog> getAllLogs() {
         return ticketingLogRepository.findAllByOrderByIdDesc();
     }
 
+    /**
+     * Clears all logs from the database.
+     */
     @Transactional
     public void clearAllLogs() {
         ticketingLogRepository.deleteAllInBatch();
     }
 
+    /**
+     * Saves a generic system log message.
+     * @param message The log message.
+     */
     public void saveLog(String message) {
         TicketingLog log = new TicketingLog();
         log.setMessage("System: " + message);

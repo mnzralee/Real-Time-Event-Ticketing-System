@@ -38,6 +38,11 @@ public class TicketPoolService {
     }
 
 
+    /**
+     * Adds a ticket to the pool. Waits if the pool is full.
+     * @param vendor The vendor adding the ticket.
+     * @param ticket The ticket to add.
+     */
     public void addTicket(Vendor vendor, Ticket ticket) {
         lock.lock();
         try {
@@ -62,6 +67,11 @@ public class TicketPoolService {
         }
     }
 
+
+    /**
+     * Purchases a ticket from the pool. Waits if the pool is empty.
+     * @param customer The customer buying the ticket.
+     */
     public void buyTicket(Customer customer) {
         lock.lock();
         try {
@@ -88,10 +98,18 @@ public class TicketPoolService {
         }
     }
 
+    /**
+     * Gets the maximum capacity of the ticket pool.
+     * @return The maximum capacity.
+     */
     public int getMaxCapacity() {
         return maxCapacity;
     }
 
+    /**
+     * Sets the maximum capacity of the ticket pool.
+     * @param maxCapacity The new maximum capacity.
+     */
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
     }
