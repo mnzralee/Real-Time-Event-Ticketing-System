@@ -23,7 +23,6 @@ hr{
 .sidebar-container li, .sidebar-container li a{
     color: #908096;
     border: none;
-    cursor: pointer;
     text-decoration: none;
 }
 
@@ -53,6 +52,7 @@ li span{
 
 .sidebar-container li a{
     transition: all 0.2s ease-out;
+    cursor: pointer;
 }
 
 .sidebar-container li a:hover, .active{

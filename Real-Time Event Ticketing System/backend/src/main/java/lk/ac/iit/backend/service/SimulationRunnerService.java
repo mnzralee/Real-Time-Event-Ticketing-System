@@ -57,7 +57,7 @@ public class SimulationRunnerService {
 
         List<Customer> customers = customerService.getAllCustomers();
         for (Customer customer : customers) {
-            CustomerRunnable cRun = new CustomerRunnable(ticketPoolService, customer, config.getCustomerRetrievalRate(), 4);
+            CustomerRunnable cRun = new CustomerRunnable(ticketPoolService, customer, config.getCustomerRetrievalRate(), config.getTotalTickets());
             executorService.submit(cRun);
         }
 
