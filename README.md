@@ -8,7 +8,12 @@ The Real-Time Event Ticketing System is an event ticket management platform desi
 ## Class Diagram
 Below is the class diagram for the system. It shows the primary classes and their relationships:
 
-<img src="UML%20class.png" width="500px"/>
+
+<p align="center">
+  <img src="UML%20class.png" width="500px"/>
+</p>
+
+
 
 ### Explanation
 1. **Customer**: Represents the end-user purchasing tickets. It interacts with the `TicketPool` to retrieve tickets.
@@ -27,7 +32,10 @@ Below is the class diagram for the system. It shows the primary classes and thei
 ## Sequence Diagram
 The sequence diagram illustrates the interaction flow between the components:
 
-<img src="Sequence%20diagram.png" width="500px"/>
+<p align="center">
+   <img src="Sequence%20diagram.png" width="500px"/>
+</p>
+
 
 ### Key Steps
 1. **Vendor releases tickets**:
