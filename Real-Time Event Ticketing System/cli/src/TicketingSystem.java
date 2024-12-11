@@ -34,7 +34,8 @@ public class TicketingSystem {
             try {
                 choice = scanner.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("Please enter a valid number.");
+                System.out.println("Please enter a valid number.\n");
+                scanner.nextLine();
                 continue;
             }
 
@@ -75,7 +76,8 @@ public class TicketingSystem {
                 try {
                     userCmd = scanner.next().toLowerCase();
                 } catch (Exception e) {
-                    System.out.println("Error, try again.");
+                    System.out.println("Error, try again.\n");
+                    scanner.nextLine();
                     continue;
                 }
 
@@ -141,7 +143,7 @@ public class TicketingSystem {
                     System.out.println(errorMessage); // Display error message if validation fails
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Please enter a valid integer.");
+                System.out.println("Please enter a valid integer.\n");
                 scanner.next(); // Dispose of invalid input
             }
         }
