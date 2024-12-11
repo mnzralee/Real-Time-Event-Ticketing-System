@@ -17,6 +17,7 @@ public class TicketingSystem {
         // Main Loop
         while (true) {
 
+            // Display the menu
             System.out.println("Enter a number to make a selection from the menu below");
             System.out.println("-------------------------------------------------------");
             System.out.println("1. Create new Configurations for the system ");
@@ -27,7 +28,7 @@ public class TicketingSystem {
 
             int choice;
 
-            // local configuration variable
+            // Local configuration variable
             Configuration config = null;
 
             try {
@@ -39,18 +40,17 @@ public class TicketingSystem {
 
             switch (choice) {
                 case 1:
-                    config = getConfiguration(scanner);
-                    Configuration.saveConfiguration(config);
-                    System.out.println(config);
+                    config = getConfiguration(scanner); // Get user configuration input
+                    Configuration.saveConfiguration(config); // Save the configuration
+                    System.out.println(config); // Display configuration
                     break;
                 case 2:
-                    config = Configuration.loadConfiguration();
+                    config = Configuration.loadConfiguration(); // Load existing configuration
                     if (config == null) {
-                        System.out.println("Since No configuration found, Create new Configurations for the system");
+                        System.out.println("No configuration found, creating new configuration...");
                         config = getConfiguration(scanner);
                         Configuration.saveConfiguration(config);
                         System.out.println(config);
-                        break;
                     } else {
                         System.out.println(config);
                     }
@@ -58,17 +58,15 @@ public class TicketingSystem {
                 case 3:
                     System.out.println("Thank you for using Ticketing System!");
                     System.out.println("Quitting the application...");
-                    System.exit(0);
+                    System.exit(0); // Exit the program
                     break;
                 default:
                     System.out.println("Please enter a valid choice.");
                     continue;
             }
 
-            // user command variable
+            // Command input for running the simulation
             String userCmd;
-
-            // control simulation loop
             boolean runSimulation = true;
 
             // Simulation Loop
@@ -77,57 +75,55 @@ public class TicketingSystem {
                 try {
                     userCmd = scanner.next().toLowerCase();
                 } catch (Exception e) {
-                    System.out.println("error try again..");
+                    System.out.println("Error, try again.");
                     continue;
                 }
 
                 switch (userCmd){
                     case "start":
                         stopFlag.set(false);
-                        startSystem(config, userCmd);
+                        startSystem(config, userCmd); // Start the simulation
                         System.out.println("Simulation running.");
                         break;
                     case "stop":
-                        stopFlag.set(true);
+                        stopFlag.set(true); // Stop the simulation
                         System.out.println("Simulation stopped.");
                         break;
                     case "menu":
-                        // starts program from menu
-                        runSimulation = false;
+                        runSimulation = false; // Exit to the main menu
                         break;
                     case "quit":
                         System.out.println("Exiting the system...");
                         runSimulation = false;
-                        System.exit(0);
+                        System.exit(0); // Exit the program
                         break;
                     default:
-                        System.out.println("Invalid command. Try 'start', 'stop', 'menu' or 'quit'. ");
+                        System.out.println("Invalid command. Try 'start', 'stop', 'menu', or 'quit'. ");
                 }
             }
         }
     }
 
     /**
-     * Method to get validated configuration values and store them appropriately
-     * @param scanner Scanner instance
-     * @return a Configuration instance
+     * Gets validated configuration values and stores them in a Configuration instance.
+     * @param scanner Scanner instance for user input
+     * @return a Configuration instance with user inputs
      */
     public static Configuration getConfiguration(Scanner scanner) {
 
-        // Get user input and store in appropriate attributes
+        // Validate and store configuration values
         int totalTickets = validateConfig(scanner, "Enter Total Tickets: ", value -> value > 0, "Total Tickets must be a positive integer.");
         int ticketReleaseRate = validateConfig(scanner, "Enter Ticket Release Rate: ", value -> value > 0, "Ticket Release Rate must be a positive integer.");
         int customerRetrievalRate = validateConfig(scanner, "Enter Customer Retrieval Rate: ", value -> value > 0, "Customer Retrieval Rate must be a positive integer.");
-        int maxTicketCapacity = validateConfig(scanner, "Enter Maximum Ticket Capacity: ", value -> value > 0, "Maximum Ticket Capacity must be greater than Total Tickets.");
+        int maxTicketCapacity = validateConfig(scanner, "Enter Maximum Ticket Capacity: ", value -> value > totalTickets, "Maximum Ticket Capacity must be greater than Total Tickets.");
 
-        return new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
+        return new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity); // Return new Configuration
     }
-
 
     /**
      * Validates user input for configuration values.
      *
-     * @param scanner Scanner instance for input
+     * @param scanner Scanner instance for user input
      * @param prompt  Message to prompt the user
      * @param condition Validation condition for input
      * @param errorMessage Error message if the condition fails
@@ -136,54 +132,53 @@ public class TicketingSystem {
     public static int validateConfig(Scanner scanner, String prompt, Predicate<Integer> condition, String errorMessage) {
         int value;
         while (true) {
-            System.out.print(prompt);
+            System.out.print(prompt); // Prompt user for input
             try {
-                value = scanner.nextInt();
-                if (condition.test(value)) {
+                value = scanner.nextInt(); // Get input value
+                if (condition.test(value)) { // Validate input
                     return value;
                 } else {
-                    System.out.println(errorMessage);
+                    System.out.println(errorMessage); // Display error message if validation fails
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Please enter a valid integer.");
-                scanner.next(); // dispose the input
+                scanner.next(); // Dispose of invalid input
             }
         }
     }
 
-
     /**
-     * method to start (simulation) customer and vendor threads
-     * @param config Configuration Object with the config values
-     * @param userCmd user input command to start/stop the simulation
+     * Starts the simulation by creating and running customer and vendor threads.
+     * @param config Configuration object with system settings
+     * @param userCmd User command to start the system
      */
     public static void startSystem(Configuration config, String userCmd) {
 
-        // ticket pool instance
+        // Initialize the ticket pool with the configuration
         TicketPool ticketPool = new TicketPool(config);
 
-        // Thread which listens for the "stop" command to stop simulation
+        // Thread to listen for the "stop" command and stop the simulation
         new Thread(() -> {
             System.out.println("Type 'stop' to end the simulation...");
             while (true) {
                 if ("stop".equalsIgnoreCase(userCmd)) {
                     System.out.println("Stopping all threads...");
-                    stopFlag.set(true); // Set the flag to stop all threads
+                    stopFlag.set(true); // Stop all threads by setting stop flag
                     break;
                 }
             }
         }).start();
 
-        // vip customer with higher priority
+        // Start VIP customer thread with higher priority
         Thread vipCustomerThread = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "Customer_vip");
         vipCustomerThread.start();
 
-        // Loop to create a said number of customer and vendor threads
-        for (int i=1; i<=5; i++){
-            Thread vendorThread = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "Vendor"+i);
+        // Start vendor and regular customer threads
+        for (int i = 1; i <= 5; i++) {
+            Thread vendorThread = new Thread(new Vendor(ticketPool, config.getTotalTickets(), config.getTicketReleaseRate()), "Vendor" + i);
             vendorThread.start();
 
-            Thread customerThread = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "Customer"+i);
+            Thread customerThread = new Thread(new Customer(ticketPool, config.getCustomerRetrievalRate(), 5), "Customer" + i);
             customerThread.start();
         }
     }

@@ -22,7 +22,7 @@ body {
 
 .regular_text {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 14px !important;
 }
 
 .regular_header {

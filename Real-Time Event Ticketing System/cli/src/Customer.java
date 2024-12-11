@@ -1,53 +1,52 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer implements Runnable{
+public class Customer implements Runnable {
 
     private final TicketPool ticketPool; // TicketPool instance to buy tickets from
-    private final int customerRetrievalRate; // Rate at which the customer buys a new ticket fom the pool
-    private final int quantity; // the quantity of tickets the customer will buy
+    private final int customerRetrievalRate; // Rate at which the customer buys a new ticket from the pool (milliseconds)
+    private final int quantity; // The number of tickets the customer will buy
 
     // List of tickets purchased by the customer
     private final List<Ticket> purchasedTickets;
 
 
     // CONSTRUCTOR
-
     public Customer(TicketPool ticketPool, int customerRetrievalRate, int quantity) {
         this.ticketPool = ticketPool;
-        this.customerRetrievalRate = customerRetrievalRate * 1000;
+        this.customerRetrievalRate = customerRetrievalRate * 1000; // Convert seconds to milliseconds
         this.quantity = quantity;
         this.purchasedTickets = new ArrayList<>();
     }
 
-
     @Override
     public void run() {
 
-        // Requests JVM to prioritize customer threads which contains '_vip' in its name
-        if ( Thread.currentThread().getName().contains("_vip")) {
-            Thread.currentThread().setPriority(10);
+        // Prioritize customer threads containing '_vip' in their name (VIP customers)
+        if (Thread.currentThread().getName().contains("_vip")) {
+            Thread.currentThread().setPriority(10); // Set highest priority for VIP customers
         } else {
-            Thread.currentThread().setPriority(5);
+            Thread.currentThread().setPriority(5); // Set normal priority for regular customers
         }
 
         for (int i = 0; i < quantity; i++) {
 
-            // STOPS simulation if stopFlag true
-            if(TicketingSystem.stopFlag.get()){
+            // Stop simulation if stopFlag is true
+            if (TicketingSystem.stopFlag.get()) {
                 break;
             }
 
-            // purchase ticket
+            // Purchase ticket from the ticket pool
             Ticket ticket = ticketPool.buyTickets();
 
-            // add purchased ticket to list of tickets purchased by customer
+            // Add purchased ticket to the list of tickets purchased by the customer
             purchasedTickets.add(ticket);
 
             try {
-                Thread.sleep(customerRetrievalRate);
+                // Set the rate at which the customer buys tickets (simulating delay)
+                Thread.sleep(customerRetrievalRate); // Sleep for the configured retrieval rate
             } catch (InterruptedException e) {
-                System.out.println("Customer Thread Error: " + e.getMessage());
+                System.out.println("Customer Thread Error: " + e.getMessage()); // Handle thread interruption
             }
         }
 

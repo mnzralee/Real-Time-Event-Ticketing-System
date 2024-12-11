@@ -1,7 +1,7 @@
 <div class="comp_container row">
-    <div class="sub_con m-3 col-12 col-md-5">
+    <div class="sub_con m-3 col-12 col-md-5 ">
         <h2 class="regular_header">Active Configuration</h2>
-        <ul class="list-group mt-5">
+        <ul class="list-group mt-5 regular_text">
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <span>Total Tickets:</span>
                 <span>{{ config.totalTickets }}</span>
@@ -22,7 +22,7 @@
     </div>
     <div class="sub_con m-3 col-12 col-md-6 mx-auto">
         <h2 class="regular_header">Update Configurations</h2>
-        <form (ngSubmit)="createConfig(configForm)" #configForm="ngForm">
+        <form (ngSubmit)="createConfig(configForm)" #configForm="ngForm" class="regular_text">
 
             <div class="d-flex justify-content-around mt-5">
                 <div class="form-group m-2">
@@ -105,7 +105,24 @@
             </div>
         </form>
     </div>
-      
-      
+
+    
+    <div class="sub_con m-3 col-12 col-md-11 mx-auto">
+        <h2 class="regular_header">Configuration Descriptions</h2>
+        <ul class="list-group mt-3 regular_text">
+            <li class="list-group-item">
+                <strong>Total Tickets:</strong> The total number of tickets available for the vendor.
+            </li>
+            <li class="list-group-item">
+                <strong>Ticket Release Rate:</strong> The rate at which tickets are released by vendors to the ticket pool.
+            </li>
+            <li class="list-group-item">
+                <strong>Customer Retrieval Rate:</strong> The rate at which customers can retrieve their tickets.
+            </li>
+            <li class="list-group-item">
+                <strong>Max Ticket Capacity:</strong> The maximum number of tickets that can be held in the ticket pool at any given time.
+            </li>
+        </ul>
+    </div>
       
 </div>
