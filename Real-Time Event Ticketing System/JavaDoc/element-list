@@ -1,0 +1,7 @@
+lk.ac.iit.backend
+lk.ac.iit.backend.controller
+lk.ac.iit.backend.model
+lk.ac.iit.backend.repository
+lk.ac.iit.backend.runnable
+lk.ac.iit.backend.service
+lk.ac.iit.backend.websocket
