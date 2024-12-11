@@ -117,16 +117,13 @@ Before setting up the system, ensure the following tools and dependencies are in
 |------------------------|--------|------------------------------|
 | `/api/vendors`         | POST   | Add a new vendor             |
 | `/api/customers`       | POST   | Add a new customer           |
-| `/api/tickets`         | POST   | Add a new ticket             |
-| `/api/tickets/{id}`    | GET    | Retrieve a ticket by ID      |
+| `/api/config`          | POST   | Add a new configuration      |
+| `/api/config`          | GET    | Retrieve configuration       |
 | `/api/logs`            | GET    | Retrieve all logs            |
 | `/api/logs`            | DELETE | Clear all logs               |
 
 ---
 
-## Logging and Reporting
-- Use `TicketingLog` to store all ticket-related events.
-- Generate reports for ticket sales and system usage.
 
 ---
 
