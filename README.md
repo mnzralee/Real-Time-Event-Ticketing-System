@@ -111,12 +111,12 @@ Before setting up the system, ensure the following tools and dependencies are in
 
 ### Web Interface
 1. **Navigate through the Sidebar**:
-   - **Home**: Overview of the system.
-   - **Configuration**: Set or view system configurations.
-   - **Vendor**: Manage ticket releases and vendor details.
-   - **Customer**: Monitor ticket purchases.
+   - **Home**: Simulation control panel and Log Display.
+   - **Configuration**: Set or load system configurations.
+   - **Vendor**: Manage vendors.
+   - **Customer**: Manage customer.
 2. **Real-Time Updates**:
-   - View real-time changes in ticket availability through WebSocket integration.
+   - View real-time logs in ticket release/purchase through WebSocket integration.
 
 ---
 
