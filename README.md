@@ -1,7 +1,7 @@
 # Real-Time Event Ticketing System
 
 ## Introduction
-The **Real-Time Event Ticketing System** is a multi-event ticket management platform designed to streamline ticket booking processes for both vendors and customers. It incorporates a Command-Line Interface (CLI) for backend simulation and a dynamic web-based frontend powered by Angular and Spring Boot. The system employs advanced producer-consumer implementation to manage ticket releases and purchases efficiently.
+The Real-Time Event Ticketing System is an event ticket management platform designed to streamline ticket booking processes for both vendors and customers. It incorporates a Command-Line Interface (CLI) for backend simulation and a dynamic web-based frontend powered by Angular and Spring Boot. The system employs advanced producer-consumer pattern implementation to manage simultaneuos ticket releases and purchases efficiently.
 
 ---
 
