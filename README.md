@@ -1,7 +1,42 @@
-# Real-Time Event Ticketing System
+# Real-Time Event Ticketing System with Producer-Consumer Pattern
 
 ## Introduction
-The Real-Time Event Ticketing System is an event ticket management platform designed to streamline ticket booking processes for both vendors and customers. It incorporates a Command-Line Interface (CLI) for backend simulation and a dynamic web-based frontend powered by Angular and Spring Boot. The system employs advanced producer-consumer pattern implementation to manage simultaneuos ticket releases and purchases efficiently.
+The Real-Time Event Ticketing System is an event ticket management platform designed to streamline ticket booking processes for both vendors and customers. It incorporates a Command-Line Interface (CLI) for backend simulation and a dynamic web-based frontend powered by Angular and Spring Boot. The system employs advanced producer-consumer pattern implementation to manage simultaneous ticket releases and purchases efficiently.
+
+---
+
+## Class Diagram
+Below is the class diagram for the system. It shows the primary classes and their relationships:
+
+![Class Diagram](UML%20class.png)
+
+### Explanation
+1. **Customer**: Represents the end-user purchasing tickets. It interacts with the `TicketPool` to retrieve tickets.
+2. **Vendor**: Represents the ticket issuer, releasing tickets to the `TicketPool`.
+3. **TicketPool**: Centralized storage and management for tickets, handling concurrent access.
+4. **TicketingLog**: Records all ticket-related activities, such as releases and retrievals.
+5. **Ticket**: Represents an individual ticket, with attributes like ID, name, and price.
+
+### Key Relationships
+- `Vendor` releases tickets to the `TicketPool`.
+- `Customer` retrieves tickets from the `TicketPool`.
+- `TicketPool` manages `Ticket` objects and logs activities using the `TicketingLog`.
+
+---
+
+## Sequence Diagram
+The sequence diagram illustrates the interaction flow between the components:
+
+![Sequence Diagram](Sequence%20diagram.png)
+
+### Key Steps
+1. **Vendor releases tickets**:
+   - Calls `releaseTickets()` on `TicketPool`.
+   - `TicketPool` logs the release in `TicketingLog`.
+2. **Customer retrieves tickets**:
+   - Calls `retrieveTickets()` on `TicketPool`.
+   - `TicketPool` checks availability and either provides tickets or notifies the customer if unavailable.
+   - Logs the retrieval attempt and successful retrieval (if applicable).
 
 ---
 
@@ -76,3 +111,25 @@ Before setting up the system, ensure the following tools and dependencies are in
    - View real-time changes in ticket availability through WebSocket integration.
 
 ---
+
+## API Endpoints
+| Endpoint               | Method | Description                  |
+|------------------------|--------|------------------------------|
+| `/api/vendors`         | POST   | Add a new vendor             |
+| `/api/customers`       | POST   | Add a new customer           |
+| `/api/tickets`         | POST   | Add a new ticket             |
+| `/api/tickets/{id}`    | GET    | Retrieve a ticket by ID      |
+| `/api/logs`            | GET    | Retrieve all logs            |
+| `/api/logs`            | DELETE | Clear all logs               |
+
+---
+
+## Logging and Reporting
+- Use `TicketingLog` to store all ticket-related events.
+- Generate reports for ticket sales and system usage.
+
+---
+
+## Conclusion
+By following the steps outlined in this guide, you can implement a fully functional Real-Time Event Ticketing System that adheres to OOP principles and effectively demonstrates the Producer-Consumer pattern. The provided diagrams and explanations aim to streamline the implementation process and clarify system interactions.
+
