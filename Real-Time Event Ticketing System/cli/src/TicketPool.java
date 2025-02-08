@@ -34,7 +34,8 @@ public class TicketPool {
     }
 
     public Queue<Ticket> getTicketQueue() {
-        return ticketQueue; // Return the current ticket queue
+        return ticketQueue; // Return the
+        // current ticket queue
     }
 
     public int getReleasedTicketCount() {
